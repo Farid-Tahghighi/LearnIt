@@ -10,7 +10,7 @@ interface Props {
 const MenuItem = ({ to, children, size }: Props) => {
   return (
     <Link to={`/${to}`}>
-      <Text color={"white"} fontSize={size} m={0}>
+      <Text color={"white"} fontSize={size} fontWeight={600} m={0}>
         {children}
       </Text>
     </Link>

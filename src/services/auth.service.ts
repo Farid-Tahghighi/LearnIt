@@ -3,9 +3,19 @@ import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:3000/api/auth/";
 
-export const register = (name: string, email: string, password: string) => {
+export const signup = (
+  name: string,
+  email: string,
+  password: string,
+  age: number,
+  gender: string,
+  type: string
+) => {
   return axios.post(API_URL + "signup", {
     name,
+    age,
+    gender,
+    type,
     email,
     password,
   });

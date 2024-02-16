@@ -2,7 +2,7 @@ import { Button as Btn } from "@chakra-ui/react";
 import { ReactElement } from "react";
 
 interface Props {
-  onClick?: () => void;
+  onClick?: () => Promise<void>;
   children: string;
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
