@@ -13,13 +13,12 @@ const MenuLinks = ({isOpen} : Props) => {
     >
       <Stack
         spacing={8}
-        align="center"
         justify={["center", "space-between", "flex-end", "flex-end"]}
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
       >
-        <MenuItem to="signup">Sign Up</MenuItem>
-        <MenuItem to="login">Login</MenuItem>
+        <MenuItem size="lg" to="signup">Sign Up</MenuItem>
+        <MenuItem size="lg" to="login">Login</MenuItem>
       </Stack>
     </Box>
   );

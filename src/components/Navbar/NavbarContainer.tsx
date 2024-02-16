@@ -16,7 +16,7 @@ const NavbarContainer = ({ children }: Props) => {
       mb={8}
       py={4}
       px={5}
-      bg={["red.600", "red.600", "red.600", "red.600"]}
+      bg={"red.500"}
       color={["white", "white", "primary.700", "primary.700"]}
     >
       {children}
