@@ -5,12 +5,14 @@ interface Props {
   to: string;
   children: string;
   size: string;
+  color?: string;
+  bg?: string;
 }
 
 const MenuItem = ({ to, children, size }: Props) => {
   return (
     <Link to={`/${to}`}>
-      <Text color={"white"} fontSize={size} fontWeight={600} m={0}>
+      <Text color={"#141414"} _hover={{color:"red.500"}} fontSize={size} fontWeight={600} display={"block"} m={0}>
         {children}
       </Text>
     </Link>

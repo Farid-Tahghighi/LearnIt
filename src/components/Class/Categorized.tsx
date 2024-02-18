@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { Flex } from "@chakra-ui/react";
 import axios from "axios";
-import ClassCard from "../components/ClassCard";
-import { Box, Flex } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import ClassCard from "../ClassCard";
 
 interface Subject {
   title: string;
@@ -14,6 +14,7 @@ interface User {
 }
 
 interface Class {
+  _id: string;
   subject: Subject;
   presenter: User;
   startTime: Date;
@@ -21,13 +22,20 @@ interface Class {
   image: string;
 }
 
-const Home = () => {
-  const [data, setData] = useState<Class[]>([]);
+const Categorized = () => {
+  const url = window.location.href.substring(
+    window.location.href.lastIndexOf("/") + 1
+  );
+  const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
-    axios.get("http://localhost:3000/api/classes").then((res) => {
-      setData(res.data);
-    });
-  }, []);
+    axios
+      .get(
+        `http://localhost:3000/api/classes/categories/${url?.toLowerCase()}`
+      )
+      .then((res) => {
+        setClasses(res.data);
+      });
+  });
   return (
     <>
       <Flex
@@ -37,10 +45,10 @@ const Home = () => {
         justify={"center"}
         mx={"5%"}
       >
-        {data.map((c) => {
+        {classes.map((c) => {
           return (
             <ClassCard
-              key={1}
+              key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
               startTime={c.startTime.toString()}
@@ -56,4 +64,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Categorized;

@@ -1,17 +1,16 @@
 import { Box } from "@chakra-ui/react";
-import LearnItWhite from "../../assets/LearnIt_NoBG_White.svg";
+import LearnIt from "../../assets/LearnIt_NoBG_Color.svg";
 import { Link } from "react-router-dom";
 
 interface Props {
-  color?: string[];
   width?: string;
 }
 
-const Logo = ({ color, width }: Props) => {
+const Logo = ({ width }: Props) => {
   return (
-    <Box color={color} w={width}>
+    <Box w={width}>
       <Link to={"/"}>
-        <img src={LearnItWhite} alt="LearnIt_Logo" />
+        <img src={LearnIt} alt="LearnIt_Logo" />
       </Link>
     </Box>
   );

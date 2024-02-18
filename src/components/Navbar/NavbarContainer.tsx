@@ -13,11 +13,11 @@ const NavbarContainer = ({ children }: Props) => {
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
-      py={4}
+      mb={4}
+      py={3}
       px={5}
-      bg={"red.500"}
-      color={["white", "white", "primary.700", "primary.700"]}
+      bg={"white"}
+      boxShadow={"md"}
     >
       {children}
     </Flex>

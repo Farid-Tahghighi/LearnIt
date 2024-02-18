@@ -2,14 +2,15 @@ import { Button as Btn } from "@chakra-ui/react";
 import { ReactElement } from "react";
 
 interface Props {
-  onClick?: () => Promise<void>;
+  onClick?: () => void;
   children: string;
   leftIcon?: ReactElement;
   rightIcon?: ReactElement;
   bg?: string;
-  size?: string;
+  w?: string;
   disabled?: boolean;
   type?: "submit" | "button" | "reset";
+  color?: string;
 }
 
 const Button = ({
@@ -18,20 +19,22 @@ const Button = ({
   leftIcon,
   rightIcon,
   bg,
-  size,
+  w,
   disabled,
   type,
+  color="white",
 }: Props) => {
   return (
     <Btn
-      bg={bg} 
-      color={"white"}
+      bg={bg}
+      color={color}
       leftIcon={leftIcon}
       rightIcon={rightIcon}
-      size={size}
+      w={w}
       onClick={onClick}
       disabled={disabled}
       type={type}
+      colorScheme="red"
     >
       {children}
     </Btn>

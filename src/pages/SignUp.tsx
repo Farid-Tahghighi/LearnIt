@@ -6,46 +6,16 @@ import { z } from "zod";
 import FormInput from "../components/FormInput";
 import { Flex, Text } from "@chakra-ui/react";
 import { signup } from "../services/auth.service";
-const schema = z
-  .object({
-    email: z
-      .string()
-      .min(1, { message: "Email is required." })
-      .email({ message: "Invalid email address." }),
-    password: z.string().min(4),
-    name: z.string().min(2, {
-      message: "Let's be real, there is no name with only one word.",
-    }),
-    age: z
-      .number()
-      .min(6, { message: "We only have courses for 6+ years old people." }),
-  })
-  .superRefine(({ password }, checkPassComplexity) => {
-    const containsUppercase = (ch: string) => /[A-Z]/.test(ch);
-    const containsLowercase = (ch: string) => /[a-z]/.test(ch);
-    const containsSpecialChar = (ch: string) =>
-      /[!@#$%^&*()_-+=,.<>?~ ]/.test(ch);
-    let countOfUpperCase = 0,
-      countOfLowerCase = 0,
-      countOfNumbers = 0,
-      countOfSpecialChar = 0;
-    for (let i = 0; i < password.length; i++) {
-      let ch = password.charAt(i);
-      if (!isNaN(+ch)) countOfNumbers++;
-      else if (containsUppercase(ch)) countOfUpperCase++;
-      else if (containsLowercase(ch)) countOfLowerCase++;
-      else if (containsSpecialChar(ch)) countOfSpecialChar++;
-    }
-    if (1) { // I'll fix this tmrw
-      checkPassComplexity.addIssue({
-        code: "custom",
-        message: "password does not meet complexity requirements",
-      });
-    }
-  });
-
+const schema = z.object({
+  email: z
+    .string()
+    .min(1, { message: "Email is required." })
+    .email({ message: "Invalid email address." }),
+  password: z.string().min(6).max(20),
+  name: z.string().min(2),
+  age: z.number().min(6),
+});
 type FormData = z.infer<typeof schema>;
-
 const SignUp = () => {
   const navigate = useNavigate();
   const {
@@ -111,7 +81,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-{
-  /* <Button disabled={!isValid} type="submit">Submit</Button> */
-}
