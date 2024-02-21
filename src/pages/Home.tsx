@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import ClassCard from "../components/ClassCard";
-import { Box, Flex } from "@chakra-ui/react";
+import ClassCard from "../components/Class/ClassCard";
+import { Flex } from "@chakra-ui/react";
 
 interface Subject {
   title: string;
@@ -19,6 +19,7 @@ interface Class {
   startTime: Date;
   description: string;
   image: string;
+  _id: string;
 }
 
 const Home = () => {
@@ -40,7 +41,8 @@ const Home = () => {
         {data.map((c) => {
           return (
             <ClassCard
-              key={1}
+              w={["70%", "68%", "38%", "25%", "19%"]}
+              key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
               startTime={c.startTime.toString()}
@@ -48,6 +50,7 @@ const Home = () => {
                 "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
               }
               description={c.description}
+              id={c._id}
             />
           );
         })}

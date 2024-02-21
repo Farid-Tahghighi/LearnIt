@@ -20,7 +20,7 @@ const Categories = ({ categories }: Props) => {
       <MenuList>
         {categories.map((c) => {
           return (
-            <MenuItem
+            <MenuItem key={c}
               _hover={{ color: "red.500", backgroundColor: "transparent" }}
               onClick={() => nav(`/classes/${c.toLowerCase()}`)}
             >

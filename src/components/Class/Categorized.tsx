@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import ClassCard from "../ClassCard";
+import ClassCard from "./ClassCard";
 
 interface Subject {
   title: string;
@@ -29,13 +29,11 @@ const Categorized = () => {
   const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
     axios
-      .get(
-        `http://localhost:3000/api/classes/categories/${url?.toLowerCase()}`
-      )
+      .get(`http://localhost:3000/api/classes/categories/${url?.toLowerCase()}`)
       .then((res) => {
         setClasses(res.data);
       });
-  });
+  }, []);
   return (
     <>
       <Flex
@@ -48,6 +46,7 @@ const Categorized = () => {
         {classes.map((c) => {
           return (
             <ClassCard
+              w={["70%", "68%", "38%", "25%", "19%"]}
               key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
@@ -56,6 +55,7 @@ const Categorized = () => {
                 "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
               }
               description={c.description}
+              id={c._id}
             />
           );
         })}

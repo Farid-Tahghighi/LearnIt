@@ -1,18 +1,17 @@
 import { Text } from "@chakra-ui/react";
+import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
   to: string;
-  children: string;
+  children: ReactNode;
   size: string;
-  color?: string;
-  bg?: string;
 }
 
 const MenuItem = ({ to, children, size }: Props) => {
   return (
     <Link to={`/${to}`}>
-      <Text color={"#141414"} _hover={{color:"red.500"}} fontSize={size} fontWeight={600} display={"block"} m={0}>
+      <Text color={"#141414"} _hover={{color:"red.500"}} fontSize={size} fontWeight={600}>
         {children}
       </Text>
     </Link>

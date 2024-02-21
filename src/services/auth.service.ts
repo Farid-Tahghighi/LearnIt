@@ -1,7 +1,10 @@
 import axios from "axios";
 import authHeader from "./auth-header";
+import { Navigate } from "react-router-dom";
 
-const API_URL = "http://localhost:3000/api/auth/";
+const AUTH_API_URL = "http://localhost:3000/api/auth/";
+const USER_API_URL = "http://localhost:3000/api/users/";
+const CLASS_API_URL = "http://localhost:3000/api/classes/";
 
 export const signup = (
   name: string,
@@ -11,7 +14,7 @@ export const signup = (
   gender: string,
   type: string
 ) => {
-  return axios.post(API_URL + "signup", {
+  return axios.post(AUTH_API_URL + "signup", {
     name,
     age,
     gender,
@@ -23,7 +26,7 @@ export const signup = (
 
 export const login = (email: string, password: string) => {
   return axios
-    .post(API_URL + "login", {
+    .post(AUTH_API_URL + "login", {
       email,
       password,
     })
@@ -37,17 +40,57 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   localStorage.removeItem("user");
+  Navigate({ to: "/home" });
+  window.location.reload();
 };
 
 export const getCurrentUser = () => {
   const userStr = localStorage.getItem("user");
   if (userStr) {
     return axios
-      .get("http://localhost:3000/api/users/me", { headers: authHeader() })
+      .get(`${USER_API_URL}me`, { headers: authHeader() })
       .then((res) => {
         return res.data;
       });
   } else {
     return null;
   }
+};
+
+export const editCurrentUser = (user: any, email: string) => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    return axios
+      .put(USER_API_URL + email, { ...user }, { headers: authHeader() })
+      .then((res) => {
+        if (res.data) {
+          // const token = res.headers.get("x-auth-token");
+          // localStorage.setItem("user", token);
+          return res.data;
+        }
+      });
+  } else {
+    return null;
+  }
+};
+
+export const getClass = (_id: string) => {
+  return axios
+    .get(CLASS_API_URL + _id)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((e) => {
+      return null;
+    });
+};
+
+export const createClass = (clss: any) => {
+  return axios.post(
+    CLASS_API_URL,
+    {
+      ...clss,
+    },
+    { headers: authHeader() }
+  );
 };

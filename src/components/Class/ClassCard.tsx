@@ -7,15 +7,17 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import Button from "./Button";
+import Button from "../Button";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   subject: string;
-  teacher?: string;
+  teacher: string;
   startTime: string;
   image: string;
   description: string;
-  key: any;
+  w: string[];
+  id: string;
 }
 
 const ClassCard = ({
@@ -24,9 +26,12 @@ const ClassCard = ({
   startTime,
   image,
   description,
+  w,
+  id,
 }: Props) => {
+  const nav = useNavigate();
   return (
-    <Card maxW="19%" m={"5"}>
+    <Card w={w} m={"5"} onClick={() => nav(`/classes/${id}`)}>
       <CardBody p={0} pb={2}>
         <Image
           p={0}
@@ -53,7 +58,12 @@ const ClassCard = ({
         justifyContent={"center"}
         pt={1}
       >
-        <Button w="80%" bg="red.400">
+        <Button
+          type="button"
+          w="80%"
+          bg="red.400"
+          onClick={() => nav(`/classes/${id}`)}
+        >
           Enroll Now!
         </Button>
       </CardFooter>

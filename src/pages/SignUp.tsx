@@ -32,7 +32,6 @@ const SignUp = () => {
       "Not Set",
       "Student"
     ).then(() => {
-      console.log("HELLO");
       navigate("/");
     });
   return (

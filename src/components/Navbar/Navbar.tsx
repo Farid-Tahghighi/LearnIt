@@ -4,51 +4,41 @@ import MenuLinks from "./MenuLinks";
 import MenuToggle from "./MenuToggle";
 import NavbarContainer from "./NavbarContainer";
 import SearchBar from "./SearchBar";
-import Categories from "./Categories";
-import { Flex, Text } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { Stack } from "@chakra-ui/react";
 import axios from "axios";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
-  const nav = useNavigate();
   const [categories, setCategories] = useState<string[]>([]);
   useEffect(() => {
     axios
       .get("http://localhost:3000/statics/categories")
       .then((res) => setCategories(res.data));
-  });
+  }, []);
   return (
     <>
       <NavbarContainer>
-        <Flex
+        <Stack
           flexDirection={"row"}
-          justifyContent={"space-between"}
+          spacing={["4", "8"]}
+          justifyContent={"flex-start"}
           alignContent={"center"}
-          w={"55%"}
+          w={["85%", "80%", "60%", "55%"]}
         >
-          <Logo width="60px" />
-          <Categories categories={categories} />
-          {(window.location.href == "http://localhost:5173/user/login" ||
-            "http://localhost:5173/user/singup" ||
-            "http://localhost:5173/user/profile") && (
+          <Logo width={["50px", "60px"]} />
+          {!(
+            window.location.href == "http://localhost:5173/user/login" ||
+            window.location.href == "http://localhost:5173/user/signup" ||
+            window.location.href == "http://localhost:5173/user/me"
+          ) && (
             <SearchBar
-              w={["80%", "40%", "70%"]}
+              w={["75%", "80%", "70%"]}
               display={isOpen ? "none" : "block"}
             />
           )}
-        </Flex>
-        {localStorage.getItem("user") && (
-          <Text
-            onClick={() => nav("/me/learning")}
-            color={"#141414"}
-            _hover={{ color: "red.500" }}
-          >
-            My Learning
-          </Text>
-        )}
+        </Stack>
         <MenuToggle toggle={() => setOpen(!isOpen)} isOpen={isOpen} />
-        <MenuLinks isOpen={isOpen} />
+        <MenuLinks categories={categories} isOpen={isOpen} />
       </NavbarContainer>
     </>
   );

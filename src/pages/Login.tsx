@@ -20,7 +20,8 @@ const Login = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) =>
     login(data.email, data.password).then(() => {
-      navigate("/");
+      navigate("/home");
+      window.location.reload();
     });
   return (
     <>
