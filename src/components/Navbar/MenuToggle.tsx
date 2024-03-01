@@ -9,7 +9,7 @@ interface Props {
 
 const MenuToggle = ({ isOpen, toggle }: Props) => {
   return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle} fontSize={"170%"}>
+    <Box display={{ base: "block", lg: "none" }} onClick={toggle} fontSize={"170%"}>
       {isOpen ? <IoCloseSharp /> : <IoIosMenu />}
     </Box>
   );

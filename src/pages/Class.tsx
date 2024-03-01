@@ -5,13 +5,8 @@ import ClassInformation from "../components/Class/ClassInformation";
 import { Flex } from "@chakra-ui/react";
 import Button from "../components/Button";
 
-interface Subject {
-  title: string;
-  credit: number;
-}
-
 interface Class {
-  subject: Subject;
+  subject: { title: string; credit: number };
   presenter: string;
   startDate: string;
   finishDate: string;
@@ -22,12 +17,13 @@ interface Class {
 }
 
 const Class = () => {
-  const _id = window.location.href.substring(
+  const id = window.location.href.substring(
     window.location.href.lastIndexOf("/") + 1
   );
   const [clss, setClss] = useState<Class>(Object);
   useEffect(() => {
-    getClass(_id)
+    console.log("Aaaaaa");
+    getClass(id)
       .then((res) => {
         console.log("AAAAAAAAAAAAAAA");
         setClss(res);

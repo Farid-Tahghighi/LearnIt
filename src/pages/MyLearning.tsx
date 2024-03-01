@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
-import ClassCard from "../components/Class/ClassCard";
+import { getUserClasses } from "../services/auth.service";
 import { Flex } from "@chakra-ui/react";
+import ClassCard from "../components/Class/ClassCard";
 
 interface Subject {
   title: string;
@@ -11,6 +11,7 @@ interface Subject {
 
 interface User {
   name: string;
+  _id: string;
 }
 
 interface Class {
@@ -22,21 +23,24 @@ interface Class {
   _id: string;
 }
 
-interface Props {
-  search: string;
-}
-
-const Home = ({search}: Props) => {
-  const [data, setData] = useState<Class[]>([]);
-  if (search != "") {
-    data.filter((c) => {
-      return c.subject.title.includes(search);
-    });
-  }
+const MyLearning = () => {
+  const id = window.location.href.split("/")[4];
+  const [classes, setClasses] = useState<Class[]>([]);
+  // const [user, setUser] = useState<User>({ name: "", _id: "" });
+  // useEffect(() => {
+  //   getCurrentUser()
+  //     ?.then((res) => {
+  //       setUser(res);
+  //     })
+  //     .catch((e) => console.log(e));
+  // }, []);
+  // console.log(user);
   useEffect(() => {
-    axios.get("http://localhost:3000/api/classes").then((res) => {
-      setData(res.data);
-    });
+    getUserClasses(id)
+      ?.then((res) => {
+        setClasses(res);
+      })
+      .catch((e) => console.log(e));
   }, []);
   return (
     <>
@@ -47,7 +51,7 @@ const Home = ({search}: Props) => {
         justify={"center"}
         mx={"5%"}
       >
-        {data.map((c) => {
+        {classes.map((c) => {
           return (
             <ClassCard
               w={["70%", "68%", "38%", "25%", "19%"]}
@@ -68,4 +72,4 @@ const Home = ({search}: Props) => {
   );
 };
 
-export default Home;
+export default MyLearning;

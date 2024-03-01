@@ -34,7 +34,6 @@ const Information = ({ children }: Props) => {
         direction={"column"}
         align={"center"}
         justify={"center"}
-        mb={"3"}
         py={"6"}
         w={"inherit"}
         border={"1px solid rgb(210, 210, 210)"}

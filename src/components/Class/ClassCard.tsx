@@ -62,7 +62,7 @@ const ClassCard = ({
           type="button"
           w="80%"
           bg="red.400"
-          onClick={() => nav(`/classes/${id}`)}
+          onClick={() => nav(`/classes/class/${id}`)}
         >
           Enroll Now!
         </Button>

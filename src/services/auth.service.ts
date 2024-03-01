@@ -81,7 +81,7 @@ export const getClass = (_id: string) => {
       return res.data;
     })
     .catch((e) => {
-      return null;
+      return e;
     });
 };
 
@@ -93,4 +93,18 @@ export const createClass = (clss: any) => {
     },
     { headers: authHeader() }
   );
+};
+
+export const getUserClasses = (id: string) => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    console.log(`${USER_API_URL}classes/` + id);
+    return axios
+      .get(`${USER_API_URL}classes/` + id, { headers: authHeader() })
+      .then((res) => {
+        if (res.data) return res.data;
+        return null;
+      })
+      .catch((e) => console.log(e));
+  } else return null;
 };

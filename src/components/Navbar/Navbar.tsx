@@ -30,12 +30,7 @@ const Navbar = () => {
             window.location.href == "http://localhost:5173/user/login" ||
             window.location.href == "http://localhost:5173/user/signup" ||
             window.location.href == "http://localhost:5173/user/me"
-          ) && (
-            <SearchBar
-              w={["75%", "80%", "70%"]}
-              display={isOpen ? "none" : "block"}
-            />
-          )}
+          ) && <SearchBar display={isOpen ? "none" : "block"} />}
         </Stack>
         <MenuToggle toggle={() => setOpen(!isOpen)} isOpen={isOpen} />
         <MenuLinks categories={categories} isOpen={isOpen} />

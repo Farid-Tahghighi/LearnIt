@@ -1,20 +1,28 @@
 import { Input } from "@chakra-ui/react";
 
 interface Props {
-  w: string[];
   display: string;
 }
 
-const SearchBar = ({ w, display }: Props) => {
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+};
+
+const SearchBar = ({ display }: Props) => {
   return (
-    <Input
-      type="text"
-      placeholder="Search"
-      w={w}
-      alignSelf={"center"}
-      borderRadius={"full"}
-      display={display}
-    />
+    <form
+      onSubmit={handleSubmit}
+      style={{ height: "inherit", width: "inherit", display: "inherit" }}
+    >
+      <Input
+        type="text"
+        placeholder="Search"
+        w={["75%", "80%", "100%"]}
+        alignSelf={"center"}
+        borderRadius={"full"}
+        display={display}
+      />
+    </form>
   );
 };
 

@@ -11,6 +11,7 @@ interface Props {
 
 interface User {
   type: string;
+  _id: string;
 }
 
 const MenuLinks = ({ isOpen, categories }: Props) => {
@@ -18,20 +19,19 @@ const MenuLinks = ({ isOpen, categories }: Props) => {
   useEffect(() => {
     getCurrentUser()?.then((res) => {
       setUser(res);
-      console.log("RAQS");
     });
   }, []);
   return (
     <Box
-      display={{ base: isOpen ? "block" : "none", md: "block" }}
-      flexBasis={{ base: "100%", md: "auto" }}
+      display={{ base: isOpen ? "block" : "none", lg: "block" }}
+      flexBasis={{ base: "100%", lg: "auto" }}
     >
       <Stack
         spacing={8}
         align="center"
-        justify={["center", "space-between", "flex-end", "flex-end"]}
+        justify={["center", "space-between", "space-between", "flex-end"]}
         direction={["column", "row", "row", "row"]}
-        pt={[4, 4, 0, 0]}
+        pt={[4, 4, 4, 0]}
       >
         {!localStorage.getItem("user") && (
           <MenuItem size="lg" to="user/signup">
@@ -50,7 +50,7 @@ const MenuLinks = ({ isOpen, categories }: Props) => {
           </MenuItem>
         ) : null}
         {localStorage.getItem("user") && (
-          <MenuItem size="md" to="me/learning">
+          <MenuItem size="md" to={`user/${user._id}/learning`}>
             My Learning
           </MenuItem>
         )}

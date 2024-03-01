@@ -26,7 +26,7 @@ const Button = ({
       color={color}
       w={w}
       onClick={onClick}
-      disabled={disabled}
+      isDisabled={disabled}
       type={type}
       colorScheme="red"
     >

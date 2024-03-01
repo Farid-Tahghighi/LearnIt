@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import MenuItem from "../Navbar/MenuItem";
 import { getCurrentUser, logout } from "../../services/auth.service";
 
 const EditProfileSelect = () => {
@@ -13,15 +13,21 @@ const EditProfileSelect = () => {
       direction={"column"}
       justify={"center"}
       align={"center"}
-      w={"20%"}
+      py={["4", "4", "0"]}
+      w={["100%", "100%", "25%", "20%"]}
       border={"1px solid rgb(210, 210, 210)"}
-      borderRight={"none"}
+      borderRight={["1px solid rgb(210, 210, 210)", "1px solid rgb(210, 210, 210)", "none"]}
+      borderBottom={["none", "none", "1px solid rgb(210, 210, 210)"]}
     >
-      <Link to={`/user/${user._id}`}>Public Profile</Link>
-      <Link to={`/user/me/profile}`}>Edit Information</Link>
-      <Link onClick={() => logout()} to={`/home`}>
+      <MenuItem to={`user/${user._id}`} size="sm">
+        Public Profile
+      </MenuItem>
+      <MenuItem to={"user/me/profile"} size="sm">
+        Edit Information
+      </MenuItem>
+      <MenuItem onClick={() => logout()} to={`/home`} size="sm">
         Logout
-      </Link>
+      </MenuItem>
     </Flex>
   );
 };

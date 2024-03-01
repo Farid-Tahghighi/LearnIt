@@ -3,15 +3,21 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 interface Props {
-  to: string;
+  to?: string;
   children: ReactNode;
   size: string;
+  onClick?: () => void;
 }
 
-const MenuItem = ({ to, children, size }: Props) => {
+const MenuItem = ({ to, children, size, onClick }: Props) => {
   return (
-    <Link to={`/${to}`}>
-      <Text color={"#141414"} _hover={{color:"red.500"}} fontSize={size} fontWeight={600}>
+    <Link to={`/${to}`} onClick={onClick}>
+      <Text
+        color={"#141414"}
+        _hover={{ color: "red.500" }}
+        fontSize={size}
+        fontWeight={600}
+      >
         {children}
       </Text>
     </Link>

@@ -43,7 +43,7 @@ const EditProfile = () => {
   const onSubmit = (data: FieldValues) => editCurrentUser(data, user.email);
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex w={["90%", "100%"]} px={"10%"} direction={"row"}>
+      <Flex w={"100%"} px={"10%"} direction={["column", "column", "row"]}>
         <EditProfileSelect />
         <Information>
           <FormInput
