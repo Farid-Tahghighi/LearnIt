@@ -31,8 +31,8 @@ const EditProfile = () => {
   useEffect(() => {
     getCurrentUser()
       ?.then((res) => setUser(res))
-      .catch(() => {
-        console.log("SOMETHING WENT WRONG");
+      .catch((e) => {
+        console.log("SOMETHING WENT WRONG! " + e);
       });
   }, []);
   const {

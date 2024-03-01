@@ -11,9 +11,14 @@ const schema = z.object({
     .string()
     .min(1, { message: "Email is required." })
     .email({ message: "Invalid email address." }),
-  password: z.string().min(6).max(20),
-  name: z.string().min(2),
-  age: z.number().min(6),
+  password: z
+    .string()
+    .min(6, { message: "Password should be longer than 6 characters." })
+    .max(20, { message: "Password should be shorter than 20 characters." }),
+  name: z
+    .string()
+    .min(2, { message: "Name must be longer than 2 characters." }),
+  age: z.number().min(6, { message: "You must be 6 years old or more." }),
 });
 type FormData = z.infer<typeof schema>;
 const SignUp = () => {
@@ -21,7 +26,7 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) =>
     signup(
@@ -56,6 +61,12 @@ const SignUp = () => {
             label="Password"
             register={register}
           ></FormInput>
+          {errors.name && <Text color={"red"}>{errors.name.message}</Text>}
+          {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
+          {errors.age && <Text color={"red"}>{errors.age.message}</Text>}
+          {errors.password && (
+            <Text color={"red"}>{errors.password.message}</Text>
+          )}
           <Flex
             flexDirection={"row"}
             justifyContent={"space-between"}

@@ -1,10 +1,10 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import FormInput from "../FormInput";
+import FormInput from "../components/FormInput";
 import { Flex, Textarea } from "@chakra-ui/react";
-import Button from "../Button";
-import { createClass, getCurrentUser } from "../../services/auth.service";
+import Button from "../components/Button";
+import { createClass, getCurrentUser } from "../services/auth.service";
 import { useEffect, useState } from "react";
 
 const schema = z.object({

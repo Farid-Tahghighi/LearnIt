@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import ClassCard from "../components/Class/ClassCard";
 import { Flex } from "@chakra-ui/react";
+import { getClasses } from "../services/auth.service";
 
 interface Subject {
   title: string;
@@ -26,7 +26,7 @@ interface Props {
   search: string;
 }
 
-const Home = ({search}: Props) => {
+const Home = ({ search }: Props) => {
   const [data, setData] = useState<Class[]>([]);
   if (search != "") {
     data.filter((c) => {
@@ -34,8 +34,8 @@ const Home = ({search}: Props) => {
     });
   }
   useEffect(() => {
-    axios.get("http://localhost:3000/api/classes").then((res) => {
-      setData(res.data);
+    getClasses().then((res) => {
+      setData(res);
     });
   }, []);
   return (

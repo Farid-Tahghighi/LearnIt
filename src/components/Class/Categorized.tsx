@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ClassCard from "./ClassCard";
+import { getClassesByCat } from "../../services/auth.service";
 
 interface Subject {
   title: string;
@@ -28,11 +28,9 @@ const Categorized = () => {
   );
   const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
-    axios
-      .get(`http://localhost:3000/api/classes/categories/${url?.toLowerCase()}`)
-      .then((res) => {
-        setClasses(res.data);
-      });
+    getClassesByCat(url)?.then((res) => {
+      setClasses(res);
+    });
   }, []);
   return (
     <>

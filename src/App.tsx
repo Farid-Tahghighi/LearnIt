@@ -8,7 +8,7 @@ import EditProfile from "./pages/EditProfile";
 import Categorized from "./components/Class/Categorized";
 import Class from "./pages/Class";
 import PublicProfile from "./pages/PublicProfile";
-import CreateClass from "./components/Class/CreateClass";
+import CreateClass from "./pages/CreateClass";
 import MyLearning from "./pages/MyLearning";
 
 function App() {

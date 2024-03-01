@@ -22,10 +22,8 @@ const Class = () => {
   );
   const [clss, setClss] = useState<Class>(Object);
   useEffect(() => {
-    console.log("Aaaaaa");
     getClass(id)
       .then((res) => {
-        console.log("AAAAAAAAAAAAAAA");
         setClss(res);
       })
       .catch((e) => console.log(e));

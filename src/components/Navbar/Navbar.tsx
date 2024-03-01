@@ -5,15 +5,13 @@ import MenuToggle from "./MenuToggle";
 import NavbarContainer from "./NavbarContainer";
 import SearchBar from "./SearchBar";
 import { Stack } from "@chakra-ui/react";
-import axios from "axios";
+import { getCategories } from "../../services/auth.service";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/statics/categories")
-      .then((res) => setCategories(res.data));
+    getCategories().then((res) => setCategories(res));
   }, []);
   return (
     <>
