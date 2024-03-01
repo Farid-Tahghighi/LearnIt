@@ -21,20 +21,20 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-interface Subject {
-  title: string;
-  credit: number;
-  resources: string[];
-}
+// interface Subject {
+//   title: string;
+//   credit: number;
+//   resources: string[];
+// }
 
-interface Class {
-  subject: Subject;
-  startDate: string;
-  finishDate: string;
-  location: string;
-  category: string;
-  description: string;
-}
+// interface Class {
+//   subject: Subject;
+//   startDate: string;
+//   finishDate: string;
+//   location: string;
+//   category: string;
+//   description: string;
+// }
 
 const CreateClass = () => {
   const [user, setUser] = useState<{ _id: number }>(Object);
