@@ -4,7 +4,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
-import { editCurrentUser, getCurrentUser } from "../services/auth.service";
+import { editCurrentUser, getCurrentUser } from "../api/services/auth.service";
 import { Flex } from "@chakra-ui/react";
 import EditProfileSelect from "../components/Profile/EditProfileSelect";
 import { useEffect, useState } from "react";

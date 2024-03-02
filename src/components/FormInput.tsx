@@ -6,6 +6,7 @@ interface Props {
   type: string;
   valueAsNumber?: boolean;
   placeholder?: string;
+  w?: string[];
 }
 
 const FormInput = ({
@@ -14,13 +15,14 @@ const FormInput = ({
   type,
   valueAsNumber,
   placeholder,
+  w = ["70%", "45%", "45%", "30%"],
 }: Props) => {
   return (
     <Flex
       flexDirection={["column", "column", "row"]}
       justifyContent={["space-between"]}
       alignItems={"center"}
-      w={["70%", "45%", "45%", "30%"]}
+      w={w}
       mb={3}
     >
       <FormLabel

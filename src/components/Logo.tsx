@@ -9,7 +9,7 @@ interface Props {
 const Logo = ({ width }: Props) => {
   return (
     <Box w={width}>
-      <Link to={"/home"}>
+      <Link to={"/"}>
         <img src={LearnIt} alt="LearnIt_Logo" />
       </Link>
     </Box>

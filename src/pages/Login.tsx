@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
-import { login } from "../services/auth.service";
+import { login } from "../api/services/auth.service";
 import { Flex, Text } from "@chakra-ui/react";
 const schema = z.object({
   email: z.string().min(3),
@@ -20,7 +20,7 @@ const Login = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) =>
     login(data.email, data.password).then(() => {
-      navigate("/home");
+      navigate("/");
       window.location.reload();
     });
   return (

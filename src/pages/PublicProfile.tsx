@@ -1,7 +1,7 @@
 import { Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { getUser } from "../services/auth.service";
+import { getUser } from "../api/services/auth.service";
 
 interface User {
   name: string;

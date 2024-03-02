@@ -1,12 +1,10 @@
-import axios from "axios";
-import authHeader from "./auth-header";
+import axios, { AxiosHeaders } from "axios";
+import authHeader from "../auth-header";
 import { Navigate } from "react-router-dom";
 
-const AUTH_API_URL = "https://cyan-thoughtful-basket-clam.cyclic.app/api/auth/";
-const USER_API_URL =
-  "https://cyan-thoughtful-basket-clam.cyclic.app/api/users/";
-const CLASS_API_URL =
-  "https://cyan-thoughtful-basket-clam.cyclic.app/api/classes/";
+const AUTH_API_URL = "http://localhost:3000/api/auth/";
+const USER_API_URL = "http://localhost:3000/api/users/";
+const CLASS_API_URL = "http://localhost:3000/api/classes/";
 
 export const signup = (
   name: string,
@@ -68,11 +66,12 @@ export const editCurrentUser = (user: any, email: string) => {
   const userStr = localStorage.getItem("user");
   if (userStr) {
     return axios
-      .put(USER_API_URL + email, { ...user }, { headers: authHeader() })
+      .putForm(USER_API_URL + email, { ...user }, { headers: authHeader() })
       .then((res) => {
-        if (res.data) {
-          // const token = res.headers.get("x-auth-token");
-          // localStorage.setItem("user", token);
+        const headers = res.headers;
+        if (headers instanceof AxiosHeaders && headers.has("x-token-token")) {
+          const token = res.headers.get("x-auth-token");
+          localStorage.setItem("user", token);
           return res.data;
         }
       })
@@ -97,18 +96,6 @@ export const getClass = (_id: string) => {
     .then((res) => {
       return res.data;
     })
-    .catch((e) => console.log(e.response.data));
-};
-
-export const createClass = (clss: any) => {
-  return axios
-    .post(
-      CLASS_API_URL,
-      {
-        ...clss,
-      },
-      { headers: authHeader() }
-    )
     .catch((e) => console.log(e.response.data));
 };
 

@@ -5,7 +5,7 @@ import MenuToggle from "./MenuToggle";
 import NavbarContainer from "./NavbarContainer";
 import SearchBar from "./SearchBar";
 import { Stack } from "@chakra-ui/react";
-import { getCategories } from "../../services/auth.service";
+import { getCategories } from "../../api/services/auth.service";
 
 const Navbar = () => {
   const [isOpen, setOpen] = useState(false);

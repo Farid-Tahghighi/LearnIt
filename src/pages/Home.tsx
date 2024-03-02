@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ClassCard from "../components/Class/ClassCard";
 import { Flex } from "@chakra-ui/react";
-import { getClasses } from "../services/auth.service";
+import { getClasses } from "../api/services/auth.service";
 
 interface Subject {
   title: string;

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserClasses } from "../services/auth.service";
+import { getUserClasses } from "../api/services/auth.service";
 import { Flex } from "@chakra-ui/react";
 import ClassCard from "../components/Class/ClassCard";
 

@@ -2,17 +2,18 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
-import { Flex, Textarea } from "@chakra-ui/react";
+import { Box, Flex, Text, Textarea, useDisclosure } from "@chakra-ui/react";
 import Button from "../components/Button";
-import { createClass, getCurrentUser } from "../services/auth.service";
-import { useEffect, useState } from "react";
+import { getCurrentUser } from "../api/services/auth.service";
+import { createClass } from "../api/services/class.service";
+import { useEffect, useRef, useState } from "react";
+import { getSubjects } from "../api/services/subject.service";
+import FormSelect from "../components/FormSelect";
+import CreateSubjectModal from "../components/Subject/CreateSubjectModal";
 
 const schema = z.object({
-  startDate: z.date().optional(),
-  finishDate: z.date().optional(),
-  title: z.string().min(1, { message: "title must be 1 character or longer." }),
-  credit: z.enum(["1", "3", "6"]),
-  resources: z.string(),
+  startdate: z.string().optional(),
+  finishdate: z.string().optional(),
   location: z.string(),
   description: z
     .string()
@@ -21,38 +22,52 @@ const schema = z.object({
 });
 type FormData = z.infer<typeof schema>;
 
-// interface Subject {
-//   title: string;
-//   credit: number;
-//   resources: string[];
-// }
-
-// interface Class {
-//   subject: Subject;
-//   startDate: string;
-//   finishDate: string;
-//   location: string;
-//   category: string;
-//   description: string;
-// }
+interface Subject {
+  title: string;
+}
 
 const CreateClass = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState<{ _id: number }>(Object);
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+  const [done, isDone] = useState(false);
+  const subject = useRef("");
+
   useEffect(() => {
     getCurrentUser()?.then((res) => {
       setUser(res);
     });
+    getSubjects()
+      .then((res) => {
+        setSubjects(res);
+      })
+      .catch((e) => console.log(e));
   }, []);
+
   const {
     register,
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+
   const onSubmit = (data: FieldValues) => {
     data.presenterId = user._id;
-    data.participants = user._id;
-    createClass(data);
+    data.participants = [user._id];
+    data.subjectTitle = subject.current;
+    createClass(
+      data.subjectTitle,
+      data.participants,
+      data.presenterId,
+      data.startdate,
+      data.finishdate,
+      data.location,
+      data.category,
+      data.description
+    )
+      .then(() => isDone(true))
+      .catch((e) => console.log(e));
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex
@@ -64,12 +79,24 @@ const CreateClass = () => {
         my={["8", "12"]}
         py={"5"}
       >
-        <FormInput type="text" label="Title" register={register} />
-        <FormInput type="number" label="Credit" register={register} />
-        <FormInput type="text" label="Resources" register={register} />
+        <FormSelect
+          subjects={subjects}
+          defaultVal="Subjects"
+          onSelect={(s) => {
+            subject.current = s;
+          }}
+        />
+        <Text as={"h6"} size={"xs"} mb={3}>
+          The subject you're looking for doesn't exist?{" "}
+          <Text color={"red.500"} display={"inline"} onClick={onOpen}>
+            Make it!
+          </Text>
+        </Text>
+        <CreateSubjectModal isOpen={isOpen} onClose={onClose} />
         <FormInput type="date" label="StartDate" register={register} />
         <FormInput type="date " label="FinishDate" register={register} />
         <FormInput type="text" label="Location" register={register} />
+
         <Textarea
           placeholder="Description"
           size={"sm"}
@@ -78,28 +105,24 @@ const CreateClass = () => {
           resize={"vertical"}
           {...register("description")}
         ></Textarea>
-        {errors.title && <p className="text-danger">{errors.title.message}</p>}
-        {errors.credit && (
-          <p className="text-danger">{errors.credit.message}</p>
-        )}
-        {errors.resources && (
-          <p className="text-danger">{errors.resources.message}</p>
-        )}
-        {errors.startDate && (
-          <p className="text-danger">{errors.startDate.message}</p>
-        )}
-        {errors.finishDate && (
-          <p className="text-danger">{errors.finishDate.message}</p>
-        )}
-        {errors.location && (
-          <p className="text-danger">{errors.location.message}</p>
-        )}
-        {errors.description && (
-          <p className="text-danger">{errors.description.message}</p>
-        )}
-        <Button type="submit" disabled={!isValid}>
-          Create
-        </Button>
+        <Box mb={3}>
+          {errors.startdate && (
+            <Text color={"red"}>{errors.startdate.message}</Text>
+          )}
+          {errors.finishdate && (
+            <Text color={"red"}>{errors.finishdate.message}</Text>
+          )}
+          {errors.location && (
+            <Text color={"red"}>{errors.location.message}</Text>
+          )}
+          {errors.description && (
+            <Text color={"red"}>{errors.description.message}</Text>
+          )}
+          {done && (
+            <Text color={"red.500"}>Successfully created the class!</Text>
+          )}
+        </Box>
+        <Button type="submit">Create</Button>
       </Flex>
     </form>
   );

@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
 import { Flex, Text } from "@chakra-ui/react";
-import { signup } from "../services/auth.service";
+import { signup } from "../api/services/auth.service";
 const schema = z.object({
   email: z
     .string()

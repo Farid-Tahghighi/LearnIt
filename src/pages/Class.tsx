@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import ClassHeader from "../components/Class/ClassHeader";
-import { getClass } from "../services/auth.service";
+import { getClass } from "../api/services/auth.service";
 import ClassInformation from "../components/Class/ClassInformation";
 import { Flex } from "@chakra-ui/react";
 import Button from "../components/Button";

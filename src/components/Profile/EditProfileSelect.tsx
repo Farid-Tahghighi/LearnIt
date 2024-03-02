@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import MenuItem from "../Navbar/MenuItem";
-import { getCurrentUser, logout } from "../../services/auth.service";
+import { getCurrentUser, logout } from "../../api/services/auth.service";
 
 const EditProfileSelect = () => {
   const [user, setUser] = useState(Object);
@@ -25,7 +25,7 @@ const EditProfileSelect = () => {
       <MenuItem to={"user/me/profile"} size="sm">
         Edit Information
       </MenuItem>
-      <MenuItem onClick={() => logout()} to={`/home`} size="sm">
+      <MenuItem onClick={() => logout()} to={`/`} size="sm">
         Logout
       </MenuItem>
     </Flex>
