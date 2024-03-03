@@ -31,7 +31,7 @@ const ClassCard = ({
 }: Props) => {
   const nav = useNavigate();
   return (
-    <Card w={w} m={"5"} onClick={() => nav(`/classes/${id}`)}>
+    <Card w={w} m={"5"}>
       <CardBody p={0} pb={2}>
         <Image
           p={0}

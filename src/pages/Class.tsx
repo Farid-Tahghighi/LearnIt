@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import ClassHeader from "../components/Class/ClassHeader";
-import { getClass } from "../api/services/auth.service";
 import ClassInformation from "../components/Class/ClassInformation";
 import { Flex } from "@chakra-ui/react";
 import Button from "../components/Button";
+import { getClass } from "../api/services/class.service";
 
 interface Class {
-  subject: { title: string; credit: number };
+  title: string;
+  credit: number;
   presenter: string;
   startDate: string;
   finishDate: string;
   description: string;
-  image: string;
   category: string;
   location: string;
 }
@@ -24,6 +24,8 @@ const Class = () => {
   useEffect(() => {
     getClass(id)
       .then((res) => {
+        res.title = res.subject.title;
+        res.credit = res.subject.credit;
         setClss(res);
       })
       .catch((e) => console.log(e));
@@ -31,15 +33,14 @@ const Class = () => {
   return (
     <Flex>
       <ClassHeader
-        title={clss.subject.title}
+        title={clss.title}
         teacher={clss.presenter}
-        image="Image Some Image Here"
         category={clss.category}
       ></ClassHeader>
       <ClassInformation
         description={clss.description}
-        subject={clss.subject.title}
-        credit={clss.subject.credit}
+        subject={clss.title}
+        credit={clss.credit}
         startDate={clss.startDate}
         finishDate={clss.finishDate}
         location={clss.location}

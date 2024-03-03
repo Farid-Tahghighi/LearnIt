@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ClassCard from "../components/Class/ClassCard";
 import { Flex } from "@chakra-ui/react";
-import { getClasses } from "../api/services/auth.service";
+import { getClasses } from "../api/services/class.service";
 
 interface Subject {
   title: string;
@@ -16,7 +16,7 @@ interface User {
 interface Class {
   subject: Subject;
   presenter: User;
-  startTime: Date;
+  startDate: Date;
   description: string;
   image: string;
   _id: string;
@@ -28,8 +28,9 @@ interface Props {
 
 const Home = ({ search }: Props) => {
   const [data, setData] = useState<Class[]>([]);
+  let classes = data;
   if (search != "") {
-    data.filter((c) => {
+    classes = data.filter((c) => {
       return c.subject.title.includes(search);
     });
   }
@@ -47,14 +48,14 @@ const Home = ({ search }: Props) => {
         justify={"center"}
         mx={"5%"}
       >
-        {data.map((c) => {
+        {classes.map((c) => {
           return (
             <ClassCard
               w={["70%", "68%", "38%", "25%", "19%"]}
               key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
-              startTime={c.startTime.toString()}
+              startTime={c.startDate.toString()}
               image={
                 "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
               }

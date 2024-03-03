@@ -1,8 +1,7 @@
 import axios from "axios";
 import authHeader from "../auth-header";
 
-const SUBJECT_API_URL =
-  "http://localhost:3000/api/subjects/";
+const SUBJECT_API_URL = "http://localhost:3000/api/subjects/";
 
 export const getSubjects = () => {
   return axios
@@ -17,11 +16,7 @@ export const createSubject = (data: any) => {
   const userStr = localStorage.getItem("user");
   if (userStr) {
     return axios
-      .post(
-        SUBJECT_API_URL,
-        { ...data },
-        { headers: authHeader() }
-      )
+      .post(SUBJECT_API_URL, { ...data }, { headers: authHeader() })
       .catch((e) => console.log(e.response.data));
   } else return null;
 };

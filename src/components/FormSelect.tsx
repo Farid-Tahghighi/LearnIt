@@ -1,14 +1,18 @@
 import { Select } from "@chakra-ui/react";
 
 interface Props {
-  subjects: { title: string }[];
+  values: string[];
   defaultVal: string;
   onSelect: (selected: string) => void;
+  // register: any;
 }
 
-const FormSelect = ({ subjects, defaultVal, onSelect }: Props) => {
+const FormSelect = ({ values, defaultVal, onSelect }: Props) => {
   return (
     <Select
+      // ref={register({
+      //   required: "select one option",
+      // })}
       w={["70%", "45%", "45%", "30%"]}
       mb={3}
       onChange={(e) => onSelect(e.target.value)}
@@ -16,9 +20,9 @@ const FormSelect = ({ subjects, defaultVal, onSelect }: Props) => {
       <option value="Default" disabled selected>
         {defaultVal}
       </option>
-      {subjects.map((s) => (
-        <option key={s.title} value={s.title}>
-          {s.title}
+      {values.map((s) => (
+        <option key={s} value={s}>
+          {s}
         </option>
       ))}
     </Select>

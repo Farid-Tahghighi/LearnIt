@@ -10,14 +10,21 @@ import Class from "./pages/Class";
 import PublicProfile from "./pages/PublicProfile";
 import CreateClass from "./pages/CreateClass";
 import MyLearning from "./pages/MyLearning";
+import { useState } from "react";
 
 function App() {
+  const [search, setSearch] = useState<string>("");
   return (
     <>
-      <Navbar />
+      <Navbar
+        search={(s) => {
+          if (s != "") {
+            setSearch(s);
+          }
+        }}
+      />
       <Routes>
-        <Route path="/" element={<Home search="" />} />
-        <Route path="/home" element={<Home search="" />} />
+        <Route path="/" element={<Home search={search} />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<SignUp />} />
         <Route path="/user/me" element={<EditProfile />} />

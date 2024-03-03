@@ -3,11 +3,10 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 interface Props {
   title: string;
   teacher: string;
-  image: string; // For now...
   category: string;
 }
 
-const ClassHeader = ({ title, teacher, image, category }: Props) => {
+const ClassHeader = ({ title, teacher, category }: Props) => {
   return (
     <Flex
       h={["50%", "30%"]}
@@ -21,9 +20,6 @@ const ClassHeader = ({ title, teacher, image, category }: Props) => {
         <Text>{title}</Text>
         <Text>By {teacher}</Text>
       </Flex>
-      <Box bg={"gray"} border={"2px solid gray"} width={["90%"]}>
-        {image}
-      </Box>
     </Flex>
   );
 };

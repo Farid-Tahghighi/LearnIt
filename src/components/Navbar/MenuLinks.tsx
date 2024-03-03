@@ -2,7 +2,7 @@ import { Box, Stack } from "@chakra-ui/react";
 import MenuItem from "./MenuItem";
 import Categories from "./Categories";
 import { useEffect, useState } from "react";
-import { getCurrentUser } from "../../api/services/auth.service";
+import { getCurrentUser } from "../../api/services/user.service";
 
 interface Props {
   isOpen: boolean;

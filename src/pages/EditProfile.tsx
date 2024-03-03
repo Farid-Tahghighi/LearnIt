@@ -4,10 +4,11 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
-import { editCurrentUser, getCurrentUser } from "../api/services/auth.service";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import EditProfileSelect from "../components/Profile/EditProfileSelect";
 import { useEffect, useState } from "react";
+import { editCurrentUser, getCurrentUser } from "../api/services/user.service";
+
 const schema = z.object({
   name: z.string().min(2),
   age: z.number().min(6),
@@ -26,8 +27,10 @@ interface User {
   gender: string;
 }
 type FormData = z.infer<typeof schema>;
+
 const EditProfile = () => {
   const [user, setUser] = useState<User>(Object);
+
   useEffect(() => {
     getCurrentUser()
       ?.then((res) => setUser(res))
@@ -35,12 +38,15 @@ const EditProfile = () => {
         console.log("SOMETHING WENT WRONG! " + e);
       });
   }, []);
+
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+
   const onSubmit = (data: FieldValues) => editCurrentUser(data, user.email);
+
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Flex w={"100%"} px={"10%"} direction={["column", "column", "row"]}>
@@ -71,9 +77,14 @@ const EditProfile = () => {
             register={register}
             placeholder={user.email}
           ></FormInput>
-          <Button type="submit" disabled={!isValid}>
-            Edit
-          </Button>
+          {errors.name && <Text color={"red"}>{errors.name.message}</Text>}
+          {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
+          {errors.age && <Text color={"red"}>{errors.age.message}</Text>}
+          {errors.description && (
+            <Text color={"red"}>{errors.description.message}</Text>
+          )}
+          {errors.gender && <Text color={"red"}>{errors.gender.message}</Text>}
+          <Button type="submit">Edit</Button>
         </Information>
       </Flex>
     </form>

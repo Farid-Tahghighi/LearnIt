@@ -5,9 +5,13 @@ import MenuToggle from "./MenuToggle";
 import NavbarContainer from "./NavbarContainer";
 import SearchBar from "./SearchBar";
 import { Stack } from "@chakra-ui/react";
-import { getCategories } from "../../api/services/auth.service";
+import { getCategories } from "../../api/services/class.service";
 
-const Navbar = () => {
+interface Props {
+  search: (s: string) => void;
+}
+
+const Navbar = ({ search }: Props) => {
   const [isOpen, setOpen] = useState(false);
   const [categories, setCategories] = useState<string[]>([]);
   useEffect(() => {
@@ -28,7 +32,14 @@ const Navbar = () => {
             window.location.href == "http://localhost:5173/user/login" ||
             window.location.href == "http://localhost:5173/user/signup" ||
             window.location.href == "http://localhost:5173/user/me"
-          ) && <SearchBar display={isOpen ? "none" : "block"} />}
+          ) && (
+            <SearchBar
+              submit={(s) => {
+                search(s);
+              }}
+              display={isOpen ? "none" : "block"}
+            />
+          )}
         </Stack>
         <MenuToggle toggle={() => setOpen(!isOpen)} isOpen={isOpen} />
         <MenuLinks categories={categories} isOpen={isOpen} />

@@ -6,6 +6,7 @@ import { z } from "zod";
 import FormInput from "../components/FormInput";
 import { login } from "../api/services/auth.service";
 import { Flex, Text } from "@chakra-ui/react";
+import { useRef } from "react";
 const schema = z.object({
   email: z.string().min(3),
   password: z.string().min(4),
@@ -16,13 +17,16 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const err = useRef("");
   const onSubmit = (data: FieldValues) =>
-    login(data.email, data.password).then(() => {
-      navigate("/");
-      window.location.reload();
-    });
+    login(data.email, data.password)
+      .then(() => {
+        navigate("/");
+        window.location.reload();
+      })
+      .catch((e) => (err.current = e));
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} style={{ height: "75%" }}>
@@ -51,7 +55,12 @@ const Login = () => {
                 <Link to={"/signup"}>Sign Up!</Link>
               </Text>
             </Text>
-            <Button type="submit" disabled={!isValid} bg="red.500">
+            {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
+            {errors.password && (
+              <Text color={"red"}>{errors.password.message}</Text>
+            )}
+            {err && <Text color={"red"}>{err.current}</Text>}
+            <Button type="submit" bg="red.500">
               Login
             </Button>
           </Flex>

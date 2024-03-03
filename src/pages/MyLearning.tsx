@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getUserClasses } from "../api/services/auth.service";
 import { Flex } from "@chakra-ui/react";
 import ClassCard from "../components/Class/ClassCard";
+import { getUserClasses } from "../api/services/user.service";
 
 interface Subject {
   title: string;
@@ -24,7 +24,7 @@ interface Class {
 }
 
 const MyLearning = () => {
-  const id = window.location.href.split("/")[6];
+  const id = window.location.href.split("/")[4];
   const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
     getUserClasses(id)
