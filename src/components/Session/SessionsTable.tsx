@@ -8,19 +8,33 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  useDisclosure,
 } from "@chakra-ui/react";
+import ParticipantsModal from "../User/ParticipantsModal";
+import { useRef, useState } from "react";
+import { editPresent } from "../../api/services/session.service";
 
+interface User {
+  name: string;
+  email: string;
+}
 interface Session {
   _id: string;
   duration: number;
+  present: User[];
   date: Date;
 }
 
 interface Props {
   sessions: Session[];
+  participants: User[];
+  classId: string;
 }
 
-const SessionCard = ({ sessions }: Props) => {
+const SessionCard = ({ sessions, participants, classId }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [present, setPresent] = useState<User[]>([]);
+  const sessionId = useRef<string>("");
   return (
     <TableContainer px={"10%"}>
       <Table variant="simple">
@@ -28,6 +42,7 @@ const SessionCard = ({ sessions }: Props) => {
         <Thead>
           <Tr>
             <Th>Date</Th>
+            <Th>Present</Th>
             <Th isNumeric>Duration</Th>
           </Tr>
         </Thead>
@@ -35,11 +50,35 @@ const SessionCard = ({ sessions }: Props) => {
           {sessions.map((s) => (
             <Tr key={s._id}>
               <Td>{s.date.toString()}</Td>
+              <Td
+                textDecoration={"underline"}
+                onClick={() => {
+                  onOpen();
+                  setPresent(s.present);
+                  sessionId.current = s._id;
+                }}
+              >
+                Present
+              </Td>
               <Td isNumeric>{s.duration}</Td>
             </Tr>
           ))}
         </Tbody>
       </Table>
+      <ParticipantsModal
+        onClose={onClose}
+        isOpen={isOpen}
+        users={participants}
+        participants={present}
+        submit={(data) => {
+          console.log(data);
+          editPresent(
+            classId,
+            data.map((d) => d["email"]),
+            sessionId.current
+          );
+        }}
+      />
     </TableContainer>
   );
 };

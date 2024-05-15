@@ -58,20 +58,16 @@ const ParticipantsModal = ({
         <ModalHeader>Select the students you want to add</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <form
-            onChange={handleSubmit(onSubmit)}
-            style={{ height: "inherit", width: "inherit", display: "inherit" }}
-          >
             <Input
               {...register("search")}
               name="search"
               type="text"
               placeholder="Search Students"
               w={"90%"}
+              onChange={handleSubmit(onSubmit)}
               alignSelf={"center"}
               borderRadius={"full"}
             />
-          </form>
           <Flex
             height={"200px"}
             overflow={"hidden"}

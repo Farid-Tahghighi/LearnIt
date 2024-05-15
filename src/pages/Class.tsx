@@ -10,6 +10,11 @@ import { getSessions } from "../api/services/session.service";
 import SessionsTable from "../components/Session/SessionsTable";
 import CreateSessionModal from "../components/Session/CreateSessionModal";
 
+interface User {
+  name: string;
+  email: string;
+}
+
 interface Class {
   title: string;
   credit: number;
@@ -19,12 +24,14 @@ interface Class {
   description: string;
   category: string;
   location: string;
+  participants: User[];
 }
 
 interface Session {
   _id: string;
   duration: number;
   date: Date;
+  present: User[];
 }
 
 const Class = () => {
@@ -105,7 +112,11 @@ const Class = () => {
             You've enrolled in this class.
           </Text>
         )}
-        <SessionsTable sessions={sessions} />
+        <SessionsTable
+          sessions={sessions}
+          participants={clss.participants}
+          classId={id}
+        />
       </Flex>
       <CreateSessionModal isOpen={isOpen} onClose={onClose} classId={id} />
     </>

@@ -17,9 +17,21 @@ export const createSession = (
   duration: number,
   date: string
 ) => {
-  return axios.post(
-    SESSION_API_URL,
-    { classId: classId, duration: duration, date: date, present: [] },
-    { headers: authHeader() }
-  ).catch((e) => e.response.data);
+  return axios
+    .post(
+      SESSION_API_URL,
+      { classId: classId, duration: duration, date: date, present: [] },
+      { headers: authHeader() }
+    )
+    .catch((e) => e.response.data);
+};
+
+export const editPresent = (classId: string, present: string[], sessionId: string) => {
+  return axios
+    .post(
+      SESSION_API_URL + classId,
+      { present, sessionId },
+      { headers: authHeader() }
+    )
+    .catch((e) => console.log(e.response.data + " Code: " + e.response.status));
 };

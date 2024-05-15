@@ -92,14 +92,17 @@ const ClassesSettingsForm = ({
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit: SubmitHandler<FormData> = (data: FieldValues) => {
+    console.log(subject.current);    
     data.participants = participants.map((p) => p["email"]);
-    data.presenter = selectedPresenter;
-    data.category = selectedCategory;
+    data.presenter = selectedPresenter?.value;
+    data.category = selectedCategory?.value;
     data.subject = subject.current;
+    console.log(currentClass?._id);
+    
     switch (state) {
       case "Edit":
-        if (selectedClass) {
-          editClass(selectedClass._id, data)
+        if (currentClass) {
+          editClass(currentClass._id, data)
             ?.then(() => setEdited(true))
             .catch((e) => console.log(e));
         }
@@ -122,7 +125,7 @@ const ClassesSettingsForm = ({
       });
       setSelectedPresenter({
         label: selectedClass.presenter.name,
-        value: selectedClass.presenter.name,
+        value: selectedClass.presenter.email,
       });
     }
   }, [selectedClass]);

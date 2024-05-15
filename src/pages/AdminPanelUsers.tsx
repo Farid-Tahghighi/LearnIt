@@ -26,7 +26,7 @@ const AdminPanel = () => {
       .catch((e) => console.log(e));
   }, []);
   return (
-    <Flex w="95%" m={"auto"} pb={4} direction={["column", "row", "row"]}>
+    <Flex w="95%" m={"auto"} pb={4} direction={["column", "column", "row"]}>
       <SideBar />
       <Flex
         direction={"column"}
