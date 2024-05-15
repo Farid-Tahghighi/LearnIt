@@ -6,7 +6,7 @@ import { z } from "zod";
 import FormInput from "../components/FormInput";
 import { Flex, Text } from "@chakra-ui/react";
 import { signup } from "../api/services/auth.service";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 const schema = z.object({
   email: z
     .string()
@@ -19,12 +19,12 @@ const schema = z.object({
   name: z
     .string()
     .min(2, { message: "Name must be longer than 2 characters." }),
-  age: z.number().min(6, { message: "You must be 6 years old or more." }),
+  age: z.number({invalid_type_error: "Age must be a number."}).min(6, { message: "You must be 6 years old or more." }),
 });
 type FormData = z.infer<typeof schema>;
 const SignUp = () => {
+  const [err, setErr] = useState<string>();
   const navigate = useNavigate();
-  const err = useRef("");
   const {
     register,
     handleSubmit,
@@ -32,59 +32,61 @@ const SignUp = () => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) =>
     signup(data.name, data.email, data.password, data.age, "Not Set", "Student")
-      .then(() => {
-        navigate("/");
+      .then((res) => {
+        if (Math.round(res.status) != 200) {
+          setErr(res.data);
+        } else {
+          navigate("/");
+        }
       })
-      .catch((e) => (err.current = e));
+      .catch((e) => console.log(e));
   return (
-    <>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ height: "75%" }}>
+    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "75%" }}>
+      <Flex
+        flexDirection={"column"}
+        alignItems={"center"}
+        justifyContent={"center"}
+        h={"100%"}
+      >
+        <FormInput type="text" label="Name" register={register}></FormInput>
+        <FormInput type="email" label="Email" register={register}></FormInput>
+        <FormInput
+          type="number"
+          label="Age"
+          register={register}
+          valueAsNumber={true}
+        ></FormInput>
+        <FormInput
+          type="password"
+          label="Password"
+          register={register}
+        ></FormInput>
+        {errors.name && <Text color={"red"}>{errors.name.message}</Text>}
+        {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
+        {errors.age && <Text color={"red"}>{errors.age.message}</Text>}
+        {errors.password && (
+          <Text color={"red"}>{errors.password.message}</Text>
+        )}
+        {err && <Text color={"red"}>{err}</Text>}
         <Flex
-          flexDirection={"column"}
+          flexDirection={"row"}
+          justifyContent={"space-between"}
           alignItems={"center"}
-          justifyContent={"center"}
-          h={"100%"}
+          w={["75%", "45%", "45%", "30%"]}
+          mt={3}
         >
-          <FormInput type="text" label="Name" register={register}></FormInput>
-          <FormInput type="email" label="Email" register={register}></FormInput>
-          <FormInput
-            type="number"
-            label="Age"
-            register={register}
-            valueAsNumber={true}
-          ></FormInput>
-          <FormInput
-            type="password"
-            label="Password"
-            register={register}
-          ></FormInput>
-          {errors.name && <Text color={"red"}>{errors.name.message}</Text>}
-          {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
-          {errors.age && <Text color={"red"}>{errors.age.message}</Text>}
-          {errors.password && (
-            <Text color={"red"}>{errors.password.message}</Text>
-          )}
-          {err && <Text color={"red"}>{err.current}</Text>}
-          <Flex
-            flexDirection={"row"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-            w={["75%", "45%", "45%", "30%"]}
-            mt={3}
-          >
-            <Text as={"h6"} size={"xs"}>
-              Already have an account?{" "}
-              <Text color={"red.500"} display={"inline"}>
-                <Link to={"/login"}>Login!</Link>
-              </Text>
+          <Text as={"h6"} size={"xs"}>
+            Already have an account?{" "}
+            <Text color={"red.500"} display={"inline"}>
+              <Link to={"/login"}>Login!</Link>
             </Text>
-            <Button type="submit" bg="red.500">
-              Sign Up
-            </Button>
-          </Flex>
+          </Text>
+          <Button type="submit" bg="red.500">
+            Sign Up
+          </Button>
         </Flex>
-      </form>
-    </>
+      </Flex>
+    </form>
   );
 };
 

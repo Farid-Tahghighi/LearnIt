@@ -20,3 +20,21 @@ export const createSubject = (data: any) => {
       .catch((e) => console.log(e.response.data));
   } else return null;
 };
+
+export const editSubject = (data: any, title: string) => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    return axios
+      .put(SUBJECT_API_URL + title, { ...data }, { headers: authHeader() })
+      .catch((e) => console.log(e));
+  }
+};
+
+export const deleteSubject = (title: string) => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    return axios
+      .delete(SUBJECT_API_URL + title, { headers: authHeader() })
+      .catch((e) => console.log(e));
+  }
+};

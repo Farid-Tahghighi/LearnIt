@@ -18,14 +18,22 @@ const ClassInformation = ({
   credit,
 }: Props) => {
   return (
-    <Flex>
-      <Text>{description}</Text>
+    <Flex
+      direction={["column","column", "row"]}
+      justify={["center", "start"]}
+      align={"center"}
+    >
+      <Text w={"70%"} py={4} px={8} textAlign={"center"}>
+        {description}
+      </Text>
       <Flex
         height={["auto", "unset"]}
-        width={["auto", "30%"]}
+        width={["auto", "auto", "30%"]}
         direction={"column"}
         justify={"start"}
         align={"center"}
+        py={4}
+        px={8}
       >
         <Text fontWeight={"650"}>Subject: {subject}</Text>
         <Text>Credit: {credit}</Text>

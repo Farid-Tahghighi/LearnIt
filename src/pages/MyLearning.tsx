@@ -24,7 +24,8 @@ interface Class {
 }
 
 const MyLearning = () => {
-  const id = window.location.href.split("/")[4];
+  const id = window.location.href.split("/")[6];
+  console.log(id);
   const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
     getUserClasses(id)

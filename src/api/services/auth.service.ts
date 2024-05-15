@@ -10,7 +10,6 @@ export const signup = (
   gender: string,
   type: string
 ) => {
-  console.log("SMTH");
   return axios
     .post(AUTH_API_URL + "signup", {
       name,
@@ -20,7 +19,14 @@ export const signup = (
       email,
       password,
     })
-    .catch((e) => console.log(e.response.data));
+    .then((res) => {
+      return res;
+    })
+    .catch((e) => {
+      if (e.response.status == 400) {
+        return e.response;
+      }
+    });
 };
 
 export const login = (email: string, password: string) => {
@@ -33,9 +39,13 @@ export const login = (email: string, password: string) => {
       if (res.data) {
         localStorage.setItem("user", JSON.stringify(res.data));
       }
-      return res.data;
+      return res;
     })
-    .catch((e) => console.log(e.response.data));
+    .catch((e) => {
+      if (e.response.status == 400) {
+        return e.response;
+      }
+    });
 };
 
 export const logout = () => {

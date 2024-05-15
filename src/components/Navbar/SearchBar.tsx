@@ -1,38 +1,22 @@
 import { Input } from "@chakra-ui/react";
-import { useForm, SubmitHandler } from "react-hook-form";
-
-type Inputs = {
-  search: string;
-};
-
 interface Props {
-  display: string;
+  width?: string[]|string;
+  display?: string;
   submit: (submitted: string) => void;
 }
 
-// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-//   e.preventDefault();
-// };
-
-const SearchBar = ({ display, submit }: Props) => {
-  const { register, handleSubmit } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => submit(data.search);
+const SearchBar = ({ display="block", submit, width=["75%", "80%", "100%"] }: Props) => {
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      style={{ height: "inherit", width: "inherit", display: "inherit" }}
-    >
       <Input
-        {...register("search")}
         name="search"
         type="text"
         placeholder="Search"
-        w={["75%", "80%", "100%"]}
+        w={width}
         alignSelf={"center"}
         borderRadius={"full"}
         display={display}
+        onChange={(e) => submit(e.target.value)} 
       />
-    </form>
   );
 };
 

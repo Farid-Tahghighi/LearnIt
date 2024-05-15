@@ -11,19 +11,15 @@ interface User {
 }
 
 const PublicProfile = () => {
-  const [user, setUser] = useState<User>({
-    name: "",
-    age: 0,
-    email: "",
-    type: "",
-    description: "",
-  });
+  const [user, setUser] = useState<User>(Object);
   const id = window.location.href.substring(
     window.location.href.lastIndexOf("/") + 1
   );
   useEffect(() => {
     getUser(id)
-      ?.then((res) => setUser(res.data))
+      ?.then((res) => {
+        setUser(res);
+      })
       .catch((e) => console.log(e));
   }, []);
   return (
@@ -33,10 +29,12 @@ const PublicProfile = () => {
       align={"center"}
       border={"1px solid rgb(210, 210, 210)"}
       px={"10%"}
+      py={"2%"}
       mx={"10%"}
+      my={"10"}
     >
-      <Text size={"2xl"} fontWeight={"650"} color={"#141414"}>
-        {user.name}
+      <Text fontSize={"x-large"} fontWeight={"650"} color={"#141414"}>
+        {user.type} {user.name}
       </Text>
       <Text size={"md"} fontWeight={"400"} color={"gray"}>
         About me

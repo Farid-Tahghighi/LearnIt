@@ -11,6 +11,9 @@ import PublicProfile from "./pages/PublicProfile";
 import CreateClass from "./pages/CreateClass";
 import MyLearning from "./pages/MyLearning";
 import { useState } from "react";
+import AdminPanel from "./pages/AdminPanelUsers";
+import AdminPanelClasses from "./pages/AdminPanelClasses";
+import AdminPanelSubjects from "./pages/AdminPanelSubjects";
 
 function App() {
   const [search, setSearch] = useState<string>("");
@@ -24,7 +27,7 @@ function App() {
         }}
       />
       <Routes>
-        <Route path="/" element={<Home search={search} />} />
+        <Route path="/" element={<Home search={search || ""} />} />
         <Route path="/user/login" element={<Login />} />
         <Route path="/user/signup" element={<SignUp />} />
         <Route path="/user/me" element={<EditProfile />} />
@@ -33,6 +36,9 @@ function App() {
         <Route path="/classes/:category" element={<Categorized />} />
         <Route path="/classes/class/:id" element={<Class />} />
         <Route path="/classes/create" element={<CreateClass />} />
+        <Route path="/adminpanel" element={<AdminPanel />} />
+        <Route path="/adminpanel/classes" element={<AdminPanelClasses />} />
+        <Route path="/adminpanel/subjects" element={<AdminPanelSubjects />} />
       </Routes>
       <footer></footer>
     </>

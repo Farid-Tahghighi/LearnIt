@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Heading, Text } from "@chakra-ui/react";
 
 interface Props {
   title: string;
@@ -8,19 +8,28 @@ interface Props {
 
 const ClassHeader = ({ title, teacher, category }: Props) => {
   return (
-    <Flex
-      h={["50%", "30%"]}
-      bg={"red.500"}
-      direction={["column", "row"]}
-      justify={["center", "space-between"]}
-      align={"center"}
-    >
-      <Flex direction={"column"} justify={"start"} align={"center"}>
-        <Text>{category}</Text>
-        <Text>{title}</Text>
-        <Text>By {teacher}</Text>
+    <>
+      <Flex direction={"row"} align={"center"} mb={"4"}>
+        <Text fontSize={"large"} mx={4}>
+          Categoty:{" "}
+        </Text>
+        <Heading>{category}</Heading>
       </Flex>
-    </Flex>
+      <Flex
+        direction={"column"}
+        justify={"start"}
+        align={"center"}
+        bg={"red.500"}
+        color={"rgb(251, 251, 251)"}
+      >
+        <Heading py={4} fontSize={["x-large", "xx-large"]}>
+          {title}
+        </Heading>
+        <Heading as={"h5"} fontSize={"lg"} py={3} bg={"red.500"}>
+          By {teacher}
+        </Heading>
+      </Flex>
+    </>
   );
 };
 

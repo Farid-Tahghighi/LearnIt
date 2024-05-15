@@ -29,7 +29,7 @@ const EditProfileSelect = () => {
       <MenuItem to={`user/${user._id}`} size="sm">
         Public Profile
       </MenuItem>
-      <MenuItem to={"user/me/profile"} size="sm">
+      <MenuItem to={"user/me"} size="sm">
         Edit Information
       </MenuItem>
       <MenuItem

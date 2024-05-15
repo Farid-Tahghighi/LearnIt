@@ -43,12 +43,12 @@ const MenuLinks = ({ isOpen, categories }: Props) => {
             Login
           </MenuItem>
         )}
-        {localStorage.getItem("user") && <Categories categories={categories} />}
-        {user.type == "Teacher" ? (
-          <MenuItem size="md" to="classes/create">
-            Create Class
+        {user.type == "Moderator" ? (
+          <MenuItem size="md" to="adminpanel">
+            Admin Panel
           </MenuItem>
         ) : null}
+        {localStorage.getItem("user") && <Categories categories={categories} />}
         {localStorage.getItem("user") && (
           <MenuItem size="md" to={`user/${user._id}/learning`}>
             My Learning

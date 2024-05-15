@@ -14,34 +14,30 @@ import { z } from "zod";
 import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "../Button.tsx";
-import { createSubject } from "../../api/services/subject.service.ts";
-import { useRef, useState } from "react";
-import FormSelect from "../FormSelect.tsx";
+import { useState } from "react";
+import { createSession } from "../../api/services/session.service.ts";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  classId: string;
 }
 
 const schema = z.object({
-  title: z
-    .string({ required_error: "Title is reqiured." })
-    .min(3, { message: "Title should be at least 3 characters." }),
-  resource: z.string({ required_error: "Resource is required." }),
+  duration: z.number().min(30).max(180),
+  date: z.string({ required_error: "Date is required." }),
 });
 type FormData = z.infer<typeof schema>;
 
-const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
+const CreateSessionModal = ({ isOpen, onClose, classId }: Props) => {
   const [done, isDone] = useState(false);
-  const credit = useRef(0);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) => {
-    data.credit = credit.current;
-    createSubject(data)
+    createSession(classId, data.duration, data.date)
       ?.then(() => isDone(true))
       .catch((e) => console.log(e));
   };
@@ -51,7 +47,7 @@ const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent w={"100%"}>
-          <ModalHeader>Create a subject</ModalHeader>
+          <ModalHeader>Create a session</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <form
@@ -61,25 +57,14 @@ const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
               <FormInput
                 w={["100%"]}
                 type="text"
-                label="Title"
+                label="Duration"
                 register={register}
+                valueAsNumber={true}
               />
-              <Flex
-                direction={"row"}
-                justify={"center"}
-                align={"center"}
-                w={"100%"}
-              >
-                <FormSelect
-                  values={["1", "3", "6"]}
-                  defaultVal={"Credit"}
-                  onSelect={(d) => (credit.current = Number(d))}
-                />
-              </Flex>
               <FormInput
                 w={["100%"]}
-                type="text"
-                label="Resource"
+                type="date"
+                label="Date"
                 register={register}
               />
               <Flex
@@ -100,14 +85,12 @@ const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
               justifyContent={"center"}
               align={"center"}
             >
-              {errors.title && (
-                <Text color={"red"}>{errors.title.message}</Text>
+              {errors.duration && (
+                <Text color={"red"}>{errors.duration.message}</Text>
               )}
-              {errors.resource && (
-                <Text color={"red"}>{errors.resource.message}</Text>
-              )}
+              {errors.date && <Text color={"red"}>{errors.date.message}</Text>}
               {done && (
-                <Text color={"red.500"}>Successfully created the subject!</Text>
+                <Text color={"red.500"}>Successfully created the session!</Text>
               )}
             </Flex>
           </ModalFooter>
@@ -117,4 +100,4 @@ const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
   );
 };
 
-export default CreateSubjectModal;
+export default CreateSessionModal;

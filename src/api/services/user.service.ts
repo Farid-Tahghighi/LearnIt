@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosHeaders } from "axios";
 import authHeader from "../auth-header";
 
 const USER_API_URL = "http://localhost:3000/api/users/";
@@ -20,21 +20,26 @@ export const getCurrentUser = () => {
 export const editCurrentUser = (user: any, email: string) => {
   const userStr = localStorage.getItem("user");
   if (userStr) {
-    return (
-      axios
-        .putForm(USER_API_URL + email, { ...user }, { headers: authHeader() })
-        // .then((res) => {
-        // const headers = res.headers;
-        // if (headers instanceof AxiosHeaders && headers.has("x-token-token")) {
-        //   const token = res.headers.get("x-auth-token");
-        //   localStorage.setItem("user", token);
-        // }
-        // })
-        .catch((e) => console.log(e.response.data))
-    );
+    return axios
+      .put(USER_API_URL + email, { ...user }, { headers: authHeader() })
+      .then((res) => {
+        const headers = res.headers;
+        if (headers instanceof AxiosHeaders) {
+          const token = headers.get("x-auth-token");
+          localStorage.setItem("user", JSON.stringify(token));
+        }
+        window.location.reload();
+      })
+      .catch((e) => console.log(e.response.data));
   } else {
     return null;
   }
+};
+
+export const editUser = (user: any, email: string) => {
+  return axios
+    .put(USER_API_URL + email, { ...user }, { headers: authHeader() })
+    .catch((e) => console.log(e.response.data + e.response.status));
 };
 
 export const getUserClasses = (id: string) => {
@@ -59,4 +64,48 @@ export const getUser = (id: string) => {
       })
       .catch((e) => console.log(e.response.data));
   } else return null;
+};
+
+export const getUsers = () => {
+  return axios
+    .get(USER_API_URL, { headers: authHeader() })
+    .then((res) => {
+      if (res) {
+        return res.data;
+      }
+    })
+    .catch((e) => {
+      return e;
+    });
+};
+
+export const getPresenters = () => {
+  return axios
+    .get(USER_API_URL + "presenters", { headers: authHeader() })
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      }
+    })
+    .catch((e) => console.log(e.response.data + " Code: " + e.response.status));
+};
+
+export const deleteUser = (email: string) => {
+  const userStr = localStorage.getItem("user");
+  if (userStr) {
+    return axios
+      .delete(USER_API_URL + email, { headers: authHeader() })
+      .catch((e) => console.log(e));
+  }
+};
+
+export const getStudents = () => {
+  return axios
+    .get(USER_API_URL + "students", { headers: authHeader() })
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      }
+    })
+    .catch((e) => console.log(e.response.data + " Code: " + e.response.status));
 };

@@ -2,13 +2,12 @@ import { FieldValues, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import FormInput from "../components/FormInput";
-import { Box, Flex, Text, Textarea, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Text, Textarea } from "@chakra-ui/react";
 import Button from "../components/Button";
 import { createClass, getCategories } from "../api/services/class.service";
 import { useEffect, useRef, useState } from "react";
 import { getSubjects } from "../api/services/subject.service";
 import FormSelect from "../components/FormSelect";
-import CreateSubjectModal from "../components/Subject/CreateSubjectModal";
 import { getCurrentUser } from "../api/services/user.service";
 
 const schema = z.object({
@@ -19,7 +18,6 @@ const schema = z.object({
     .string()
     .min(30, { message: "Description must at least be 25 characters." })
     .max(150, { message: "Description must at most be 150 characters." }),
-  category: z.string(),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -28,7 +26,6 @@ interface Subject {
 }
 
 const CreateClass = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [user, setUser] = useState<{ _id: number }>(Object);
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [categories, setCategores] = useState<string[]>([]);
@@ -91,7 +88,6 @@ const CreateClass = () => {
         <FormSelect
           defaultVal="Subjects"
           values={subjects.map((s) => s["title"])}
-          // register={register}
           onSelect={(s) => (subject.current = s)}
         />
         <FormSelect
@@ -99,15 +95,8 @@ const CreateClass = () => {
           values={categories}
           onSelect={(c) => (category.current = c)}
         />
-        <Text as={"h6"} size={"xs"} mb={3}>
-          The subject you're looking for doesn't exist?{" "}
-          <Text color={"red.500"} display={"inline"} onClick={onOpen}>
-            Make it!
-          </Text>
-        </Text>
-        <CreateSubjectModal isOpen={isOpen} onClose={onClose} />
         <FormInput type="date" label="StartDate" register={register} />
-        <FormInput type="date " label="FinishDate" register={register} />
+        <FormInput type="date" label="FinishDate" register={register} />
         <FormInput type="text" label="Location" register={register} />
         <Textarea
           placeholder="Description"
