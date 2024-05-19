@@ -12,7 +12,6 @@ interface Class {
   presenter: User;
   startDate: Date;
   description: string;
-  image: string;
   _id: string;
 }
 
@@ -29,18 +28,14 @@ const Home = ({ search }: Props) => {
     });
   }
   useEffect(() => {
-    getClasses().then((res) => {
-      setData(res);
-    });
+    getClasses()
+      .then((res) => {
+        setData(res);
+      })
+      .catch((e) => console.log(e));
   }, []);
   return (
-    <Flex
-      flexDirection={"row"}
-      flexWrap={"wrap"}
-      alignItems={"center"}
-      justify={"center"}
-      mx={"5%"}
-    >
+    <Flex flexWrap={"wrap"} alignItems={"center"} justify={"center"} mx={"5%"}>
       {classes.map((c) => {
         return (
           <ClassCard
@@ -48,7 +43,7 @@ const Home = ({ search }: Props) => {
             key={c._id}
             subject={c.subject.title}
             teacher={c.presenter.name}
-            startTime={c.startDate.toString()}
+            startTime={c.startDate}
             image={
               "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
             }

@@ -24,7 +24,13 @@ interface Props {
 }
 
 const schema = z.object({
-  duration: z.number().min(30).max(180),
+  duration: z
+    .number({
+      required_error: "Duration is required.",
+      invalid_type_error: "Duration must be a number(munites).",
+    })
+    .min(30, { message: "Minimum duration is 30 minutes." })
+    .max(180, { message: "Maximum duration is 180 minutes." }),
   date: z.string({ required_error: "Date is required." }),
 });
 type FormData = z.infer<typeof schema>;
@@ -37,7 +43,9 @@ const CreateSessionModal = ({ isOpen, onClose, classId }: Props) => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) => {
-    createSession(classId, data.duration, data.date)
+    data.present = [];
+    data.classId = classId;
+    createSession(data)
       ?.then(() => isDone(true))
       .catch((e) => console.log(e));
   };
@@ -50,34 +58,31 @@ const CreateSessionModal = ({ isOpen, onClose, classId }: Props) => {
           <ModalHeader>Create a session</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              style={{ width: "inherit" }}
+            <FormInput
+              w={"100%"}
+              type="text"
+              label="Duration"
+              register={register}
+              valueAsNumber={true}
+            />
+            <FormInput
+              w={"100%"}
+              type="datetime-local"
+              label="Date"
+              register={register}
+            />
+            <Flex
+              direction={["column", "row"]}
+              align={["center", "center"]}
+              justify={["space-around", "space-between"]}
             >
-              <FormInput
-                w={["100%"]}
-                type="text"
-                label="Duration"
-                register={register}
-                valueAsNumber={true}
-              />
-              <FormInput
-                w={["100%"]}
-                type="date"
-                label="Date"
-                register={register}
-              />
-              <Flex
-                direction={["column", "row"]}
-                align={["center", "center"]}
-                justify={["space-around", "space-between"]}
-              >
-                <Button type="submit">Submit</Button>
-                <Button onClick={onClose} type="button">
-                  Close
-                </Button>
-              </Flex>
-            </form>
+              <Button type="button" onClick={handleSubmit(onSubmit)}>
+                Submit
+              </Button>
+              <Button onClick={onClose} type="button">
+                Close
+              </Button>
+            </Flex>
           </ModalBody>
           <ModalFooter>
             <Flex

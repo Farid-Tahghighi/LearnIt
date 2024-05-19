@@ -9,7 +9,7 @@ interface Props {
 const ClassHeader = ({ title, teacher, category }: Props) => {
   return (
     <>
-      <Flex direction={"row"} align={"center"} mb={"4"}>
+      <Flex align={"center"} mb={"4"}>
         <Text fontSize={"large"} mx={4}>
           Categoty:{" "}
         </Text>
@@ -17,7 +17,6 @@ const ClassHeader = ({ title, teacher, category }: Props) => {
       </Flex>
       <Flex
         direction={"column"}
-        justify={"start"}
         align={"center"}
         bg={"red.500"}
         color={"rgb(251, 251, 251)"}

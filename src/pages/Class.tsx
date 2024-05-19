@@ -13,12 +13,14 @@ import CreateSessionModal from "../components/Session/CreateSessionModal";
 interface User {
   name: string;
   email: string;
+  type: string;
+  _id: string;
 }
 
 interface Class {
   title: string;
   credit: number;
-  presenterName: string;
+  presenter: string;
   startDate: string;
   finishDate: string;
   description: string;
@@ -37,12 +39,12 @@ interface Session {
 const Class = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   let nav = useNavigate();
-  const localUser = localStorage.getItem("user");
+  const userJson = localStorage.getItem("user");
   const id = window.location.href.substring(
     window.location.href.lastIndexOf("/") + 1
   );
   const [clss, setClss] = useState<Class>(Object);
-  const [user, setUser] = useState<{ _id: string; type: string }>(Object);
+  const [user, setUser] = useState<User>(Object);
   const [isDone, setDone] = useState<boolean>(false);
   const [sessions, setSessions] = useState<Session[]>([]);
   useEffect(() => {
@@ -50,7 +52,7 @@ const Class = () => {
       .then((res) => {
         res.title = res.subject.title;
         res.credit = res.subject.credit;
-        res.presenterName = res.presenter.name;
+        res.presenter = res.presenter.name;
         setClss(res);
       })
       .catch((e) => console.log(e));
@@ -71,55 +73,52 @@ const Class = () => {
       .catch((e) => console.log(e));
   };
   return (
-    <>
-      <Flex direction={"column"}>
-        <ClassHeader
-          title={clss.title}
-          teacher={clss.presenterName}
-          category={clss.category}
-        ></ClassHeader>
-        <ClassInformation
-          description={clss.description}
-          subject={clss.title}
-          credit={clss.credit}
-          startDate={clss.startDate}
-          finishDate={clss.finishDate}
-          location={clss.location}
-        ></ClassInformation>
-        <Flex
-          direction={"row"}
-          justify={"space-around"}
-          align={"center"}
-          px={"10%"}
-          pb={8}
-          pt={4}
+    <Flex direction={"column"}>
+      <ClassHeader
+        title={clss.title}
+        teacher={clss.presenter}
+        category={clss.category}
+      ></ClassHeader>
+      <ClassInformation
+        description={clss.description}
+        subject={clss.title}
+        credit={clss.credit}
+        startDate={clss.startDate}
+        finishDate={clss.finishDate}
+        location={clss.location}
+      ></ClassInformation>
+      <Flex
+        justify={"space-around"}
+        align={"center"}
+        px={"10%"}
+        pb={8}
+        pt={4}
+      >
+        <Button
+          w={"20%"}
+          type="button"
+          onClick={() => (userJson ? enrollClass() : nav("/user/login"))}
         >
-          <Button
-            w={"20%"}
-            type="button"
-            onClick={() => (localUser ? enrollClass() : nav("/user/login"))}
-          >
-            Enroll
+          Enroll
+        </Button>
+        {user.type == "Teacher" && (
+          <Button w={"20%"} type="button" onClick={onOpen}>
+            Create Session
           </Button>
-          {user.type == "Teacher" && (
-            <Button w={"20%"} type="button" onClick={onOpen}>
-              Create Session
-            </Button>
-          )}
-        </Flex>
-        {isDone && (
-          <Text color={"red.500"} fontWeight={"650"} textAlign={"center"}>
-            You've enrolled in this class.
-          </Text>
         )}
-        <SessionsTable
-          sessions={sessions}
-          participants={clss.participants}
-          classId={id}
-        />
       </Flex>
+      {isDone && (
+        <Text color={"red.500"} fontWeight={"650"} textAlign={"center"}>
+          You've enrolled in this class.
+        </Text>
+      )}
+      <SessionsTable
+        sessions={sessions}
+        participants={clss.participants}
+        classId={id}
+      />
       <CreateSessionModal isOpen={isOpen} onClose={onClose} classId={id} />
-    </>
+    </Flex>
   );
 };
 

@@ -23,6 +23,19 @@ import {
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+interface User {
+  name: string;
+  email: string;
+}
+
+interface Props {
+  selectedClass: Lclass | undefined;
+  presenters: User[];
+  students: User[];
+  categories: string[];
+  subjects: string[];
+}
+
 interface Lclass {
   subject: { title: string };
   presenter: User;
@@ -35,31 +48,13 @@ interface Lclass {
   _id: string;
 }
 
-interface Props {
-  selectedClass: Lclass | undefined;
-  presenters: User[];
-  students: User[];
-  categories: string[];
-  subjects: string[];
-}
-
-interface User {
-  name: string;
-  email: string;
-}
-
-// const selectSchema = z.object({
-//   label: z.string(),
-//   value: z.string(),
-// });
-
-// type SelectData = z.infer<typeof selectSchema>;
-
 const schema = z.object({
   startdate: z.coerce.date({ required_error: "Start Date is required." }),
   finishdate: z.coerce.date().optional(),
-  description: z.string(),
-  location: z.string().min(3),
+  description: z
+    .string()
+    .min(50, { message: "Description must be 50 characters." }),
+  location: z.string({ required_error: "Location is required." }).min(3),
 });
 type FormData = z.infer<typeof schema>;
 
@@ -92,13 +87,11 @@ const ClassesSettingsForm = ({
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit: SubmitHandler<FormData> = (data: FieldValues) => {
-    console.log(subject.current);    
     data.participants = participants.map((p) => p["email"]);
     data.presenter = selectedPresenter?.value;
     data.category = selectedCategory?.value;
     data.subject = subject.current;
     console.log(currentClass?._id);
-    
     switch (state) {
       case "Edit":
         if (currentClass) {
@@ -109,7 +102,7 @@ const ClassesSettingsForm = ({
         break;
       case "Create":
         createClass(data)
-          .then(() => setEdited(true))
+          ?.then(() => setEdited(true))
           .catch((e) => console.log(e));
         break;
     }
@@ -177,9 +170,7 @@ const ClassesSettingsForm = ({
           return { value: item.email, label: item.name };
         })}
         onChange={(e) => {
-          if (e) {
-            setSelectedPresenter(e);
-          }
+          if (e) setSelectedPresenter(e);
         }}
         placeholder="Select a presenter"
       />
@@ -197,15 +188,12 @@ const ClassesSettingsForm = ({
           return { value: c, label: c };
         })}
         onChange={(e) => {
-          if (e) {
-            setSelectedCategory(e);
-          }
+          if (e) setSelectedCategory(e);
         }}
       />
       <Flex
         direction={"column"}
         align={"center"}
-        justify={"start"}
         border={"1px solid rgb(210, 210, 210)"}
         borderRadius={6}
         mb={3}
@@ -219,7 +207,6 @@ const ClassesSettingsForm = ({
         {participants.map((p) => (
           <Flex
             key={p.email}
-            direction={"row"}
             justify={"space-between"}
             align={"center"}
             _hover={{ backgroundColor: "rgb(210, 210, 210)" }}

@@ -1,52 +1,63 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { FieldValues, useForm } from "react-hook-form";
-import { z } from "zod";
-import { createSession } from "../../api/services/session.service";
-import FormInput from "../FormInput";
+import { Flex, useDisclosure } from "@chakra-ui/react";
+import SessionTable from "../Session/SessionsTable";
+import Button from "../Button";
+import CreateSessionModal from "../Session/CreateSessionModal";
 
-interface Props {
-  selectedClass: string;
+interface User {
+  name: string;
+  email: string;
 }
 
 interface Session {
-  classId: string;
+  _id: string;
+  present: User[];
   duration: number;
   date: Date;
 }
 
-const schema = z.object({
-  duration: z
-    .number({ required_error: "Duration is required." })
-    .min(30, { message: "Duration must at least be 30 minutes." })
-    .max(180, { message: "Duration must at most be 180 minutes." }),
-  date: z.coerce.date({ required_error: "Date is required." }),
-});
-type FormData = z.infer<typeof schema>;
+interface Lclass {
+  participants: User[];
+  _id: string;
+}
 
-const SessionsSettingsForm = ({ selectedClass }: Props) => {
-  const [edited, setEdited] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const onSubmit = (data: FieldValues) => {
-    createSession(selectedClass, data.duration, data.date);
-  };
+interface Props {
+  selectedClass: Lclass | undefined;
+  sessions: Session[];
+}
+
+const SessionsSettingsForm = ({ selectedClass, sessions }: Props) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <FormInput
-        label="Duration"
-        register={register}
-        valueAsNumber={true}
-        type="number"
-      />
-      <FormInput
-        label="Date"
-        register={register}
-        valueAsDate={true}
-        type="date"
+      <Flex
+        direction={"column"}
+        align={"center"}
+        border={"1px solid rgb(210, 210, 210)"}
+        borderRadius={6}
+        mb={3}
+        p={1}
+        w={["70%", "45%", "45%", "70%"]}
+        height={"200px"}
+        overflow={"hidden"}
+        overflowY={"scroll"}
+      >
+        <SessionTable
+          sessions={sessions}
+          participants={selectedClass ? selectedClass.participants : []}
+          classId={selectedClass ? selectedClass?._id : ""}
+        />
+      </Flex>
+      <Button
+        type="button"
+        disabled={selectedClass ? false : true}
+        onClick={onOpen}
+      >
+        Add
+      </Button>
+      <CreateSessionModal
+        isOpen={isOpen}
+        onClose={onClose}
+        classId={selectedClass ? selectedClass._id : ""}
       />
     </>
   );

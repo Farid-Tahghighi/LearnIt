@@ -4,7 +4,7 @@ import { getCategories, getClasses } from "../api/services/class.service";
 import AdminPanelCard from "../components/AdminPanel/AdminPanelCard";
 import { getPresenters, getStudents } from "../api/services/user.service";
 import { getSubjects } from "../api/services/subject.service";
-import ClassesForm from "../components/AdminPanel/ClassesSettingsForm";
+import ClassesSettingsForm from "../components/AdminPanel/ClassesSettingsForm";
 import SideBar from "../components/AdminPanel/SideBar";
 import SearchBar from "../components/Navbar/SearchBar";
 
@@ -25,7 +25,7 @@ interface Lclass {
   _id: string;
 }
 
-const Classes = () => {
+const AdminPanelClasses = () => {
   const [classes, setClasses] = useState<Lclass[]>([]);
   const [selectedClass, setSelectedClass] = useState<Lclass|undefined>();
   const [filtered, setFiltered] = useState<Lclass[]>([]);
@@ -98,8 +98,6 @@ const Classes = () => {
           }}
         />
         <Flex
-          direction={"row"}
-          justify={"start"}
           align={"center"}
           wrap={"wrap"}
           my={4}
@@ -113,7 +111,7 @@ const Classes = () => {
             />
           ))}
         </Flex>
-        <ClassesForm
+        <ClassesSettingsForm
           selectedClass={selectedClass}
           presenters={presenters}
           categories={categories}
@@ -125,4 +123,4 @@ const Classes = () => {
   );
 };
 
-export default Classes;
+export default AdminPanelClasses;

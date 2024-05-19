@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import ClassCard from "../components/Class/ClassCard";
 import { getUserClasses } from "../api/services/user.service";
 
@@ -17,15 +17,13 @@ interface User {
 interface Class {
   subject: Subject;
   presenter: User;
-  startTime: Date;
+  startDate: Date;
   description: string;
-  image: string;
   _id: string;
 }
 
 const MyLearning = () => {
   const id = window.location.href.split("/")[6];
-  console.log(id);
   const [classes, setClasses] = useState<Class[]>([]);
   useEffect(() => {
     getUserClasses(id)
@@ -36,8 +34,8 @@ const MyLearning = () => {
   }, []);
   return (
     <>
+    <Heading borderBottom={"2px solid red"} w={"80%"} pb={4} m={"auto"} textAlign={"center"}>Your Classes</Heading>
       <Flex
-        flexDirection={"row"}
         flexWrap={"wrap"}
         alignItems={"center"}
         justify={"center"}
@@ -50,7 +48,7 @@ const MyLearning = () => {
               key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
-              startTime={c.startTime.toString()}
+              startTime={c.startDate}
               image={
                 "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
               }

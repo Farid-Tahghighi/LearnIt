@@ -1,25 +1,11 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const AUTH_API_URL = "http://localhost:3000/api/auth/";
 
-export const signup = (
-  name: string,
-  email: string,
-  password: string,
-  age: number,
-  gender: string,
-  type: string
-) => {
+export const signup = (data: any) => {
   return axios
-    .post(AUTH_API_URL + "signup", {
-      name,
-      age,
-      gender,
-      type,
-      email,
-      password,
-    })
-    .then((res) => {
+    .post(AUTH_API_URL + "signup", { ...data })
+    .then((res: AxiosResponse) => {
       return res;
     })
     .catch((e) => {
@@ -29,13 +15,10 @@ export const signup = (
     });
 };
 
-export const login = (email: string, password: string) => {
+export const login = (data: any) => {
   return axios
-    .post(AUTH_API_URL + "login", {
-      email,
-      password,
-    })
-    .then((res) => {
+    .post(AUTH_API_URL + "login", { ...data })
+    .then((res: AxiosResponse) => {
       if (res.data) {
         localStorage.setItem("user", JSON.stringify(res.data));
       }

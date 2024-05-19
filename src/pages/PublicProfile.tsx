@@ -25,7 +25,6 @@ const PublicProfile = () => {
   return (
     <Flex
       direction={"column"}
-      justify={"start"}
       align={"center"}
       border={"1px solid rgb(210, 210, 210)"}
       px={"10%"}

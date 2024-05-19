@@ -21,9 +21,18 @@ interface Props {
 }
 
 const schema = z.object({
-  name: z.string().min(3),
-  age: z.number().min(18),
-  email: z.string().min(3),
+  name: z
+    .string({ required_error: "Name is required." })
+    .min(3, { message: "Name is too short." }),
+  age: z
+    .number({
+      required_error: "Age is required.",
+      invalid_type_error: "Age must be a number.",
+    })
+    .min(6, { message: "Minimum age is 6." }),
+  email: z
+    .string({ required_error: "Email is required." })
+    .email({ message: "Invalid email." }),
 });
 type FormData = z.infer<typeof schema>;
 const UsersSettingsForm = ({ selectedUser }: Props) => {

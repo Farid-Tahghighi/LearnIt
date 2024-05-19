@@ -58,23 +58,22 @@ const ParticipantsModal = ({
         <ModalHeader>Select the students you want to add</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-            <Input
-              {...register("search")}
-              name="search"
-              type="text"
-              placeholder="Search Students"
-              w={"90%"}
-              onChange={handleSubmit(onSubmit)}
-              alignSelf={"center"}
-              borderRadius={"full"}
-            />
+          <Input
+            {...register("search")}
+            name="search"
+            type="text"
+            placeholder="Search Students"
+            w={"90%"}
+            onChange={handleSubmit(onSubmit)}
+            alignSelf={"center"}
+            borderRadius={"full"}
+          />
           <Flex
             height={"200px"}
             overflow={"hidden"}
             overflowY={"scroll"}
             direction={"column"}
             align={"center"}
-            justify={"start"}
             p={1}
             my={3}
           >
@@ -111,16 +110,14 @@ const ParticipantsModal = ({
           </HStack>
         </ModalBody>
         <ModalFooter>
-          <Flex
-            direction={"row"}
-            justify={"space-between"}
-            align={"center"}
-            w={"100%"}
-          >
-            <Button type="button" onClick={() => {
-              submit(selected);
-              onClose();
-            }}>
+          <Flex justify={"space-between"} align={"center"} w={"100%"}>
+            <Button
+              type="button"
+              onClick={() => {
+                submit(selected);
+                onClose();
+              }}
+            >
               Ok
             </Button>
             <Button type="button" onClick={onClose}>

@@ -60,8 +60,6 @@ const AdminPanel = () => {
           }}
         />
         <Flex
-          direction={"row"}
-          justify={"start"}
           align={"center"}
           wrap={"wrap"}
           my={4}

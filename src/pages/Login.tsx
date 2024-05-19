@@ -8,7 +8,9 @@ import { login } from "../api/services/auth.service";
 import { Flex, Text } from "@chakra-ui/react";
 import { useState } from "react";
 const schema = z.object({
-  email: z.string({ required_error: "Email is required." }),
+  email: z
+    .string({ required_error: "Email is required." })
+    .email({ message: "Invalid email." }),
   password: z
     .string({ required_error: "Password is required." })
     .min(4, { message: "Password should be longer than 6 characters." })
@@ -24,9 +26,8 @@ const Login = () => {
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) =>
-    login(data.email, data.password)
+    login(data)
       .then((res) => {
-        console.log(res);
         if (Math.round(res.status / 100) != 2) {
           setErr(res.data);
         } else {
@@ -36,35 +37,49 @@ const Login = () => {
       })
       .catch((e) => console.log(e));
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ height: "75%" }}>
-      <Flex
-        flexDirection={"column"}
-        alignItems={"center"}
-        justifyContent={"center"}
-        h={"100%"}
+    <Flex
+      flexDirection={"column"}
+      alignItems={"center"}
+      justifyContent={"center"}
+      h={"100%"}
+    >
+      <FormInput type="email" label="Email" register={register}></FormInput>
+      <FormInput
+        type="password"
+        label="Password"
+        register={register}
+      ></FormInput>
+      <Text
+        as={"h6"}
+        size={"xs"}
+        w={["70%", "45%", "45%", "30%"]}
+        mb={4}
+        mt={2}
       >
-        <FormInput type="email" label="Email" register={register}></FormInput>
-        <FormInput
-          type="password"
-          label="Password"
-          register={register}
-        ></FormInput>
-        <Text as={"h6"} size={"xs"} w={["70%", "45%", "45%", "30%"]} my={2}>
-          Don't Have an account?{" "}
-          <Text color={"red.500"} display={"inline"}>
-            <Link to={"/signup"}>Sign Up!</Link>
-          </Text>
+        Don't Have an account?{" "}
+        <Text color={"red.500"} display={"inline"}>
+          <Link to={"/signup"}>Sign Up!</Link>
         </Text>
-        {errors.email && <Text color={"red"}>{errors.email.message}</Text>}
-        {errors.password && (
-          <Text color={"red"}>{errors.password.message}</Text>
-        )}
-        {err && <Text color={"red"}>{err}</Text>}
-        <Button type="submit" bg="red.500">
-          Login
-        </Button>
-      </Flex>
-    </form>
+      </Text>
+      {errors.email && (
+        <Text mb={2} color={"red"}>
+          {errors.email.message}
+        </Text>
+      )}
+      {errors.password && (
+        <Text mb={2} color={"red"}>
+          {errors.password.message}
+        </Text>
+      )}
+      {err && (
+        <Text mb={2} color={"red"}>
+          {err}
+        </Text>
+      )}
+      <Button type="button" bg="red.500" onClick={handleSubmit(onSubmit)}>
+        Login
+      </Button>
+    </Flex>
   );
 };
 

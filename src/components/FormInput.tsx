@@ -7,7 +7,7 @@ interface Props {
   valueAsNumber?: boolean;
   placeholder?: string;
   valueAsDate?: boolean;
-  w?: string[];
+  w?: string[] | string;
   defaultVal?: string;
 }
 
@@ -19,7 +19,7 @@ const FormInput = ({
   placeholder,
   valueAsDate,
   w = ["70%", "45%", "45%", "30%"],
-  defaultVal
+  defaultVal,
 }: Props) => {
   return (
     <Flex
@@ -41,7 +41,10 @@ const FormInput = ({
         type={type}
         w={["100%", "100%", "70%"]}
         id={label.toLowerCase()}
-        {...register(label.toLowerCase(), { valueAsNumber: valueAsNumber, valueAsDate: valueAsDate })}
+        {...register(label.toLowerCase(), {
+          valueAsNumber: valueAsNumber,
+          valueAsDate: valueAsDate,
+        })}
         placeholder={placeholder}
         defaultValue={defaultVal}
       />

@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 interface Props {
   subject: string;
   teacher: string;
-  startTime: string;
+  startTime: Date;
   image: string;
   description: string;
   w: string[];
@@ -48,16 +48,11 @@ const ClassCard = ({
           </CardHeader>
           <Text>{description}</Text>
           <Text color="gray" fontSize="sm" fontWeight={50}>
-            Starts at: {startTime}
+            Starts at: {startTime.toString().split("T", 1)[0]}
           </Text>
         </Stack>
       </CardBody>
-      <CardFooter
-        flex={1}
-        flexDirection={"row"}
-        justifyContent={"center"}
-        pt={1}
-      >
+      <CardFooter pt={1}>
         <Button
           type="button"
           w="80%"

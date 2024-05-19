@@ -32,6 +32,9 @@ const Categorized = () => {
       setClasses(res);
     });
   }, []);
+  useEffect(() => {
+    console.log(window.location.href);
+  }, [window.location]);
   return (
     <>
       <Flex
@@ -48,7 +51,7 @@ const Categorized = () => {
               key={c._id}
               subject={c.subject.title}
               teacher={c.presenter.name}
-              startTime={c.startTime.toString()}
+              startTime={c.startTime}
               image={
                 "https://img.freepik.com/free-vector/chalkboard-with-math-elements_1411-88.jpg"
               }

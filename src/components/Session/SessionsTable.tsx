@@ -6,7 +6,6 @@ import {
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -31,17 +30,17 @@ interface Props {
   classId: string;
 }
 
-const SessionCard = ({ sessions, participants, classId }: Props) => {
+const SessionTable = ({ sessions, participants, classId }: Props) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [present, setPresent] = useState<User[]>([]);
   const sessionId = useRef<string>("");
   return (
-    <TableContainer px={"10%"}>
-      <Table variant="simple">
-        <TableCaption>Class Sessions</TableCaption>
-        <Thead>
+    <TableContainer w={"100%"}>
+      <Table w={"100%"} m={0} p={0}>
+        <Thead w={"100%"}>
           <Tr>
             <Th>Date</Th>
+            <Th>Time</Th>
             <Th>Present</Th>
             <Th isNumeric>Duration</Th>
           </Tr>
@@ -49,7 +48,8 @@ const SessionCard = ({ sessions, participants, classId }: Props) => {
         <Tbody>
           {sessions.map((s) => (
             <Tr key={s._id}>
-              <Td>{s.date.toString()}</Td>
+              <Td>{s.date.toString().split("T", 1)}</Td>
+              <Td>{s.date.toString().split("T", 2)[1]}</Td>
               <Td
                 textDecoration={"underline"}
                 onClick={() => {
@@ -71,7 +71,6 @@ const SessionCard = ({ sessions, participants, classId }: Props) => {
         users={participants}
         participants={present}
         submit={(data) => {
-          console.log(data);
           editPresent(
             classId,
             data.map((d) => d["email"]),
@@ -83,4 +82,4 @@ const SessionCard = ({ sessions, participants, classId }: Props) => {
   );
 };
 
-export default SessionCard;
+export default SessionTable;

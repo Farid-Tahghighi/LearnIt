@@ -7,7 +7,7 @@ const SideBar = () => {
       direction={"column"}
       justify={"center"}
       align={"center"}
-      // py={["4", "4", "0"]}
+      py={3}
       w={["100%", "100%", "25%", "20%"]}
       border={"1px solid rgb(210, 210, 210)"}
       borderRight={[
@@ -24,7 +24,10 @@ const SideBar = () => {
         Classes Setting
       </MenuItem>
       <MenuItem to={"adminpanel/subjects"} size="sm">
-        Create Subject
+        Subjects Settings
+      </MenuItem>
+      <MenuItem to={"adminpanel/sessions"} size="sm">
+        Sessions Settings
       </MenuItem>
     </Flex>
   );

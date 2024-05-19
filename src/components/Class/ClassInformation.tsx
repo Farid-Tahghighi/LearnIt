@@ -30,7 +30,6 @@ const ClassInformation = ({
         height={["auto", "unset"]}
         width={["auto", "auto", "30%"]}
         direction={"column"}
-        justify={"start"}
         align={"center"}
         py={4}
         px={8}

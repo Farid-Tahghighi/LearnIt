@@ -47,73 +47,57 @@ const CreateSubjectModal = ({ isOpen, onClose }: Props) => {
   };
 
   return (
-    <>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent w={"100%"}>
-          <ModalHeader>Create a subject</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <form
-              onSubmit={handleSubmit(onSubmit)}
-              style={{ width: "inherit" }}
-            >
-              <FormInput
-                w={["100%"]}
-                type="text"
-                label="Title"
-                register={register}
-              />
-              <Flex
-                direction={"row"}
-                justify={"center"}
-                align={"center"}
-                w={"100%"}
-              >
-                <FormSelect
-                  values={["1", "3", "6"]}
-                  defaultVal={"Credit"}
-                  onSelect={(d) => (credit.current = Number(d))}
-                />
-              </Flex>
-              <FormInput
-                w={["100%"]}
-                type="text"
-                label="Resource"
-                register={register}
-              />
-              <Flex
-                direction={["column", "row"]}
-                align={["center", "center"]}
-                justify={["space-around", "space-between"]}
-              >
-                <Button type="submit">Submit</Button>
-                <Button onClick={onClose} type="button">
-                  Close
-                </Button>
-              </Flex>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <Flex
-              direction={"column"}
-              justifyContent={"center"}
-              align={"center"}
-            >
-              {errors.title && (
-                <Text color={"red"}>{errors.title.message}</Text>
-              )}
-              {errors.resource && (
-                <Text color={"red"}>{errors.resource.message}</Text>
-              )}
-              {done && (
-                <Text color={"red.500"}>Successfully created the subject!</Text>
-              )}
-            </Flex>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
-    </>
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent w={"100%"}>
+        <ModalHeader>Create a subject</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormInput
+            w={["100%"]}
+            type="text"
+            label="Title"
+            register={register}
+          />
+          <Flex justify={"center"} align={"center"} w={"100%"}>
+            <FormSelect
+              values={["1", "3", "6"]}
+              defaultVal={"Credit"}
+              onSelect={(d) => (credit.current = Number(d))}
+            />
+          </Flex>
+          <FormInput
+            w={["100%"]}
+            type="text"
+            label="Resource"
+            register={register}
+          />
+          <Flex
+            direction={["column", "row"]}
+            align={["center", "center"]}
+            justify={["space-around", "space-between"]}
+          >
+            <Button type="button" onClick={handleSubmit(onSubmit)}>
+              Submit
+            </Button>
+            <Button onClick={onClose} type="button">
+              Close
+            </Button>
+          </Flex>
+        </ModalBody>
+        <ModalFooter>
+          <Flex direction={"column"} justifyContent={"center"} align={"center"}>
+            {errors.title && <Text color={"red"}>{errors.title.message}</Text>}
+            {errors.resource && (
+              <Text color={"red"}>{errors.resource.message}</Text>
+            )}
+            {done && (
+              <Text color={"red.500"}>Successfully created the subject!</Text>
+            )}
+          </Flex>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
   );
 };
 
