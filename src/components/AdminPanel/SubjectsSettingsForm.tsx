@@ -1,6 +1,6 @@
 import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { z } from "zod";
 import FormSelect from "../FormSelect";
@@ -47,6 +47,7 @@ const SubjectsSettingsForm = ({ selectedSubject }: Props) => {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const onSubmit = (data: FieldValues) => {
     if (selectedSubject) {
+      if (credit.current == 0) credit.current = selectedSubject.credit;
       data.credit = Number(credit.current);
       editSubject(data, selectedSubject?.title)
         ?.then(() => {
@@ -56,9 +57,6 @@ const SubjectsSettingsForm = ({ selectedSubject }: Props) => {
         .catch((e) => console.log(e));
     }
   };
-  useEffect(() => {
-    if (selectedSubject) credit.current = selectedSubject?.credit;
-  }, [selectedSubject]);
   return (
     <>
       <FormInput

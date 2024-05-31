@@ -22,7 +22,7 @@ interface Props {
 const Home = ({ search }: Props) => {
   const [data, setData] = useState<Class[]>([]);
   let classes = data;
-  if (search != "") {
+  if (search.length > 0) {
     classes = data.filter((c) => {
       return c.subject.title.includes(search);
     });

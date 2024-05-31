@@ -7,7 +7,6 @@ import {
   ModalBody,
   ModalCloseButton,
   Text,
-  Input,
   Flex,
   HStack,
   Tag,
@@ -15,17 +14,13 @@ import {
   TagCloseButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
 import Button from "../Button";
+import SearchBar from "../Navbar/SearchBar";
 
 interface User {
   name: string;
   email: string;
 }
-
-type Inputs = {
-  search: string;
-};
 
 interface Props {
   users: User[];
@@ -44,10 +39,6 @@ const ParticipantsModal = ({
 }: Props) => {
   const [students, setStudents] = useState<User[]>([]);
   const [selected, setSelected] = useState<User[]>([]);
-  const { register, handleSubmit } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    setStudents(users.filter((s) => s.name.includes(data.search)));
-  };
   useEffect(() => {
     setSelected(participants ? participants : []);
   }, [participants]);
@@ -58,15 +49,15 @@ const ParticipantsModal = ({
         <ModalHeader>Select the students you want to add</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Input
-            {...register("search")}
-            name="search"
-            type="text"
-            placeholder="Search Students"
-            w={"90%"}
-            onChange={handleSubmit(onSubmit)}
-            alignSelf={"center"}
-            borderRadius={"full"}
+          <SearchBar
+            width={"90%"}
+            submit={(e) =>
+              setStudents(
+                users.filter((s) =>
+                  s.name.toLowerCase().includes(e.toLowerCase())
+                )
+              )
+            }
           />
           <Flex
             height={"200px"}

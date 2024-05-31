@@ -22,7 +22,7 @@ const AdminPanelSubjects = () => {
         setSubjects(res);
       })
       .catch((e) => console.log(e));
-  });
+  }, []);
   return (
     <Flex w="95%" m={"auto"} pb={4} direction={["column", "column", "row"]}>
       <SideBar />

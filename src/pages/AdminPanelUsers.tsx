@@ -59,11 +59,7 @@ const AdminPanel = () => {
             }
           }}
         />
-        <Flex
-          align={"center"}
-          wrap={"wrap"}
-          my={4}
-        >
+        <Flex justify={"center"} align={"center"} wrap={"wrap"} my={4}>
           {filtered.map((u) => (
             <AdminPanelCard
               key={u.email}
